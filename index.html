@@ -1,0 +1,1459 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Only For Her 💕 | An Interactive Love Journey</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Dancing+Script:wght@700&family=Fredoka:wght@400;600&family=Poppins:wght@300;400;500;600;700&family=Sacramento&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #11071F;
+            color: #f3e8ff;
+            overflow-x: hidden;
+            touch-action: manipulation;
+        }
+
+        .font-handwritten {
+            font-family: 'Caveat', cursive;
+        }
+
+        .font-romantic {
+            font-family: 'Sacramento', cursive;
+        }
+
+        .font-cursive-title {
+            font-family: 'Dancing Script', cursive;
+        }
+
+        /* Glassmorphism Styling */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), inset 0 0 15px rgba(255, 255, 255, 0.05);
+        }
+
+        .glass-button {
+            background: linear-gradient(135deg, rgba(244, 114, 182, 0.3), rgba(192, 132, 252, 0.3));
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 25px rgba(236, 72, 153, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-button:hover, .glass-button:active {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 12px 30px rgba(236, 72, 153, 0.5);
+            background: linear-gradient(135deg, rgba(244, 114, 182, 0.5), rgba(192, 132, 252, 0.5));
+        }
+
+        /* 3D Flip Card Styles */
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+
+        .transform-style-3d {
+            transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .backface-hidden {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+
+        .rotate-y-180 {
+            transform: rotateY(180deg);
+        }
+
+        /* Custom Wiggle & Pulse Animations */
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(-3deg); }
+            50% { transform: rotate(3deg); }
+        }
+
+        .animate-wiggle {
+            animation: wiggle 1.2s infinite ease-in-out;
+        }
+
+        @keyframes float-slow {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(2deg); }
+        }
+
+        .animate-float {
+            animation: float-slow 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 15px rgba(244, 114, 182, 0.4), 0 0 30px rgba(192, 132, 252, 0.2); }
+            50% { box-shadow: 0 0 25px rgba(244, 114, 182, 0.8), 0 0 50px rgba(192, 132, 252, 0.5); }
+        }
+
+        .animate-glow {
+            animation: pulse-glow 2.5s infinite;
+        }
+
+        /* Canvas overlays */
+        #bg-canvas, #sparkle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        #sparkle-canvas {
+            z-index: 999;
+        }
+
+        .content-layer {
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Scratch Card Canvas */
+        .scratch-canvas {
+            touch-action: none;
+            cursor: pointer;
+        }
+
+        /* Typewriter Cursor */
+        .typewriter-cursor::after {
+            content: '|';
+            animation: blink 0.7s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* Notebook Styling */
+        .notebook-paper {
+            background-color: #fffdf5;
+            background-image: linear-gradient(#e5e7eb 1px, transparent 1px);
+            background-size: 100% 28px;
+            color: #2b2b2b;
+            box-shadow: 5px 10px 30px rgba(0,0,0,0.3);
+        }
+
+        /* Custom Scrollbar for inner boxes */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.05);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(244, 114, 182, 0.4);
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between select-none overflow-x-hidden bg-gradient-to-br from-[#120722] via-[#1c0d2e] to-[#2a0e38]">
+
+    <!-- Background Particle Canvas -->
+    <canvas id="bg-canvas"></canvas>
+    <!-- Interactive Sparkle Cursor Canvas -->
+    <canvas id="sparkle-canvas"></canvas>
+
+    <!-- HEADER / NAVIGATION BAR -->
+    <header class="content-layer p-4 sm:p-6 flex justify-between items-center max-w-4xl w-full mx-auto">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-pink-500/20 border border-pink-400/40 flex items-center justify-center text-pink-300 shadow-lg">
+                <i class="fa-solid fa-heart animate-pulse"></i>
+            </div>
+            <div>
+                <h1 class="font-cursive-title text-2xl sm:text-3xl text-transparent bg-clip-text bg-gradient-to-r from-pink-300 via-purple-200 to-pink-400 font-bold tracking-wide">
+                    Only For Her 💕
+                </h1>
+                <p class="text-[10px] sm:text-xs text-purple-300/70 -mt-1 font-light">An interactive journey made for one person</p>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-2 sm:gap-3">
+            <!-- Audio Toggle Button -->
+            <button id="bgm-toggle" class="p-2.5 rounded-full bg-white/10 border border-white/20 text-purple-200 hover:bg-white/20 transition-all text-xs sm:text-sm" title="Toggle Soft BGM">
+                <i class="fa-solid fa-music-slash" id="bgm-icon"></i>
+            </button>
+            
+            <!-- Sound SFX Toggle -->
+            <button id="sfx-toggle" class="p-2.5 rounded-full bg-white/10 border border-white/20 text-purple-200 hover:bg-white/20 transition-all text-xs sm:text-sm" title="Toggle Sound FX">
+                <i class="fa-solid fa-volume-high" id="sfx-icon"></i>
+            </button>
+
+            <!-- Level Indicator Badge -->
+            <div id="level-badge-container" class="glass-card px-3 py-1.5 rounded-full border border-pink-400/30 flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-pink-400 animate-ping"></span>
+                <span id="level-indicator" class="text-xs font-semibold text-pink-200 tracking-wider">LEVEL 1/10</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN APP CONTAINER -->
+    <main class="content-layer flex-1 flex items-center justify-center p-4 max-w-4xl w-full mx-auto relative my-2">
+        
+        <!-- ==================== LEVEL 1: HOT AIR BALLOON INTRO ==================== -->
+        <section id="level-1" class="w-full flex flex-col items-center text-center space-y-6">
+            <div class="glass-card p-6 sm:p-10 rounded-3xl max-w-md w-full border border-pink-300/30 animate-float relative overflow-hidden">
+                <div id="balloon-container" class="relative h-64 sm:h-80 w-full flex flex-col items-center justify-end cursor-pointer group">
+                    
+                    <!-- Hot Air Balloon Sprite -->
+                    <div id="hot-air-balloon" class="absolute bottom-0 transition-all duration-1000 ease-out flex flex-col items-center">
+                        <!-- Balloon Envelope -->
+                        <div class="w-28 h-36 sm:w-36 sm:h-44 bg-gradient-to-b from-pink-400 via-purple-400 to-indigo-500 rounded-full shadow-2xl relative flex items-center justify-center border-2 border-pink-200/50">
+                            <i class="fa-solid fa-heart text-white/40 text-4xl animate-pulse"></i>
+                            <!-- Sparkles on balloon -->
+                            <div class="absolute -top-2 -right-2 text-yellow-200 text-sm animate-bounce">✨</div>
+                            <div class="absolute top-1/2 -left-3 text-pink-200 text-xs">💖</div>
+                        </div>
+                        <!-- Ropes -->
+                        <div class="w-12 h-6 flex justify-between px-2">
+                            <div class="w-0.5 h-full bg-pink-200/60"></div>
+                            <div class="w-0.5 h-full bg-pink-200/60"></div>
+                        </div>
+                        <!-- Basket with Envelope -->
+                        <div class="w-12 h-10 bg-amber-800/80 rounded-b-lg border border-amber-600 flex items-center justify-center shadow-md relative">
+                            <!-- Floating Envelope inside basket -->
+                            <div id="basket-envelope" class="w-8 h-6 bg-pink-100 rounded border border-pink-300 shadow flex items-center justify-center text-pink-500 text-[10px]">
+                                💌
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Landing Floating Envelope (Initially Hidden) -->
+                    <div id="landed-envelope" class="hidden opacity-0 transform scale-50 transition-all duration-700 flex flex-col items-center space-y-3 cursor-pointer">
+                        <div class="w-24 h-16 sm:w-32 sm:h-20 bg-gradient-to-r from-pink-100 to-purple-100 rounded-lg shadow-2xl border-2 border-pink-300/80 flex items-center justify-center relative animate-wiggle">
+                            <div class="w-0 h-0 border-l-[40px] border-l-transparent border-r-[40px] border-r-transparent border-t-[30px] border-t-pink-200 absolute top-0"></div>
+                            <i class="fa-solid fa-heart text-pink-500 text-2xl z-10"></i>
+                            <div class="absolute -bottom-2 text-xs text-purple-600 font-handwritten bg-white/80 px-2 rounded-full border border-pink-200">Tap Me 💕</div>
+                        </div>
+                        <p class="text-xs text-pink-200 font-light tracking-wide animate-pulse">A secret message has arrived!</p>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <h2 class="text-2xl font-bold font-cursive-title text-pink-200 mb-1">A Special Delivery</h2>
+                    <p id="l1-instruction" class="text-xs sm:text-sm text-purple-200/80">Tap the Hot Air Balloon to let it float and land your message!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== LEVEL 2: ENVELOPE OPENING ==================== -->
+        <section id="level-2" class="hidden w-full flex flex-col items-center text-center space-y-6">
+            <div class="glass-card p-6 sm:p-10 rounded-3xl max-w-md w-full border border-pink-300/30 flex flex-col items-center relative overflow-hidden">
+                <div id="envelope-wrapper" class="relative w-64 h-44 sm:w-72 sm:h-48 bg-gradient-to-br from-pink-200 to-purple-200 rounded-xl shadow-2xl border-2 border-pink-300 flex items-center justify-center cursor-pointer transition-transform duration-300 hover:scale-105">
+                    
+                    <!-- Envelope Flap -->
+                    <div id="envelope-flap" class="absolute top-0 left-0 right-0 w-0 h-0 border-l-[128px] sm:border-l-[144px] border-l-transparent border-r-[128px] sm:border-r-[144px] border-r-transparent border-t-[90px] sm:border-t-[100px] border-t-pink-300 origin-top transition-transform duration-500 z-20"></div>
+                    
+                    <!-- Heart Seal -->
+                    <div id="envelope-seal" class="absolute z-30 w-10 h-10 rounded-full bg-pink-500 border-2 border-white flex items-center justify-center text-white shadow-md text-lg animate-pulse">
+                        💌
+                    </div>
+
+                    <!-- Sliding Unfolding Letter inside -->
+                    <div id="sliding-letter" class="absolute bottom-2 w-56 sm:w-64 bg-amber-50 rounded-lg p-4 shadow-xl border border-amber-200 text-gray-800 transition-all duration-700 opacity-0 transform translate-y-8 z-10">
+                        <p class="font-handwritten text-lg sm:text-xl text-purple-900 leading-snug">
+                            "Hey beautiful... You're about to unlock a journey filled with tiny reasons why you're so special to me."
+                        </p>
+                        <div class="mt-2 text-right font-handwritten text-xs text-pink-600 font-bold">~ Tap to open notebook ✨</div>
+                    </div>
+                </div>
+
+                <div class="mt-6">
+                    <h2 class="text-xl font-bold font-cursive-title text-pink-200">Envelope Sealed With Love</h2>
+                    <p id="l2-status" class="text-xs text-purple-200/80 mt-1">Tap the heart seal to break the letter open!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== LEVEL 3: NOTEBOOK COVER ==================== -->
+        <section id="level-3" class="hidden w-full flex flex-col items-center text-center">
+            <div id="notebook-cover-card" class="w-full max-w-sm sm:max-w-md bg-gradient-to-br from-purple-900 via-pink-900 to-purple-950 p-6 sm:p-8 rounded-2xl shadow-2xl border-4 border-amber-200/40 relative cursor-pointer transform hover:scale-[1.02] transition-transform">
+                <!-- Gold Foil Corner Accents -->
+                <div class="absolute top-2 left-2 text-amber-300 text-lg">✨</div>
+                <div class="absolute top-2 right-2 text-amber-300 text-lg">✨</div>
+                <div class="absolute bottom-2 left-2 text-amber-300 text-lg">✨</div>
+                <div class="absolute bottom-2 right-2 text-amber-300 text-lg">✨</div>
+
+                <!-- Scrapbook Style Cover Badge -->
+                <div class="bg-amber-50/95 border-2 border-amber-800/40 p-6 rounded-xl shadow-inner text-gray-800 my-4 text-left relative overflow-hidden">
+                    <div class="absolute -right-6 -top-6 w-16 h-16 bg-pink-400/20 rounded-full blur-md"></div>
+                    <div class="inline-block px-3 py-1 bg-red-100 text-red-600 text-xs font-bold rounded-full uppercase tracking-widest border border-red-300 mb-2">TOP SECRET</div>
+                    <h3 class="font-handwritten text-xl font-bold text-gray-900">For:</h3>
+                    <p class="font-handwritten text-2xl text-purple-900 font-bold leading-tight my-2">
+                        The girl who's responsible for my smile.
+                    </p>
+                    <p class="font-handwritten text-sm text-gray-600 italic">
+                        Unauthorized reading prohibited... <br>
+                        <span class="text-pink-600 font-bold">...unless you're her. 💜</span>
+                    </p>
+                </div>
+
+                <div class="flex items-center justify-center gap-2 mt-4 text-amber-200 text-sm font-light">
+                    <i class="fa-solid fa-book-open"></i>
+                    <span>Tap anywhere to open notebook ➔</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== LEVEL 4: NOTEBOOK PAGES ==================== -->
+        <section id="level-4" class="hidden w-full flex flex-col items-center">
+            <div class="w-full max-w-md sm:max-w-lg notebook-paper rounded-2xl p-6 sm:p-8 relative shadow-2xl border-l-8 border-purple-800 flex flex-col justify-between min-h-[360px]">
+                
+                <!-- Binder rings illustration -->
+                <div class="absolute -left-3 top-6 bottom-6 flex flex-col justify-between">
+                    <div class="w-5 h-3 bg-gray-400 rounded-full border border-gray-600"></div>
+                    <div class="w-5 h-3 bg-gray-400 rounded-full border border-gray-600"></div>
+                    <div class="w-5 h-3 bg-gray-400 rounded-full border border-gray-600"></div>
+                    <div class="w-5 h-3 bg-gray-400 rounded-full border border-gray-600"></div>
+                    <div class="w-5 h-3 bg-gray-400 rounded-full border border-gray-600"></div>
+                </div>
+
+                <!-- Tiny handwritten note in corner -->
+                <div class="self-end text-right font-handwritten text-xs text-pink-600 bg-pink-50 px-2 py-1 rounded border border-pink-200 transform rotate-2">
+                    (Don't skip pages 🐱)
+                </div>
+
+                <!-- Main Notebook Content -->
+                <div class="my-6 px-4">
+                    <h2 class="font-handwritten text-3xl sm:text-4xl text-purple-900 font-bold mb-4">Well...</h2>
+                    <p class="font-handwritten text-2xl sm:text-3xl text-gray-800 leading-relaxed">
+                        You actually opened it.<br>
+                        I knew you would. <span class="text-pink-600">♡</span>
+                    </p>
+                    <p class="font-handwritten text-xl text-gray-600 mt-4">
+                        Now prepare for a little fun ahead!
+                    </p>
+                </div>
+
+                <!-- Next Tab Button -->
+                <div class="self-end mt-4">
+                    <button id="l4-next-btn" class="bg-purple-900 text-amber-100 font-handwritten text-xl px-5 py-2 rounded-lg shadow-lg hover:bg-purple-950 transition-all flex items-center gap-2 border border-amber-300/40">
+                        <span>Turn the page</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== LEVEL 5: MEME BREAK ==================== -->
+        <section id="level-5" class="hidden w-full flex flex-col items-center text-center space-y-4">
+            <div class="glass-card p-6 rounded-3xl max-w-md w-full border border-pink-300/30 flex flex-col items-center">
+                <div class="flex items-center gap-2 mb-2">
+                    <span class="text-xs px-2.5 py-1 bg-pink-500/20 rounded-full text-pink-300 font-semibold border border-pink-400/30">LEVEL 5: MEME BREAK</span>
+                </div>
+                <h2 class="text-lg font-semibold text-purple-100 mb-4">Swipe through all memes to proceed! 💕</h2>
+
+                <!-- Meme Card Gallery Container -->
+                <div class="relative w-full max-w-xs h-64 sm:h-72 rounded-2xl overflow-hidden border-2 border-pink-300/40 bg-purple-950/80 shadow-2xl flex flex-col items-center justify-center p-4">
+                    <div id="meme-display" class="flex flex-col items-center space-y-3 w-full h-full justify-center">
+                        <!-- Meme Graphic Container -->
+                        <div id="meme-image-box" class="w-32 h-32 sm:w-36 sm:h-36 rounded-2xl bg-gradient-to-br from-pink-300 to-purple-400 flex items-center justify-center text-6xl shadow-inner border border-white/40">
+                            🐱
+                        </div>
+                        <!-- Meme Caption -->
+                        <p id="meme-caption" class="font-bold text-sm sm:text-base text-pink-100 px-2 line-clamp-2">
+                            Me after seeing your notification
+                        </p>
+                    </div>
+
+                    <!-- Progress Indicator Dots -->
+                    <div id="meme-dots" class="absolute bottom-2 flex gap-1.5">
+                        <span class="w-2 h-2 rounded-full bg-pink-400"></span>
+                        <span class="w-2 h-2 rounded-full bg-white/20"></span>
+                        <span class="w-2 h-2 rounded-full bg-white/20"></span>
+                        <span class="w-2 h-2 rounded-full bg-white/20"></span>
+                    </div>
+                </div>
+
+                <!-- Navigation Controls -->
+                <div class="flex items-center justify-between w-full max-w-xs mt-4">
+                    <button id="meme-prev-btn" class="glass-button px-4 py-2 rounded-xl text-xs text-purple-200 disabled:opacity-30 disabled:pointer-events-none">
+                        <i class="fa-solid fa-chevron-left"></i> Prev
+                    </button>
+                    <span id="meme-counter" class="text-xs text-purple-300 font-mono">1 / 4</span>
+                    <button id="meme-next-btn" class="glass-button px-4 py-2 rounded-xl text-xs text-pink-200">
+                        Next <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== LEVEL 6: HAPPY HAPPY CAT ==================== -->
+        <section id="level-6" class="hidden w-full flex flex-col items-center text-center space-y-4">
+            <div class="glass-card p-6 sm:p-8 rounded-3xl max-w-md w-full border border-pink-300/30 flex flex-col items-center">
+                <div class="flex items-center gap-2 mb-1">
+                    <span class="text-xs px-2.5 py-1 bg-yellow-500/20 rounded-full text-yellow-300 font-semibold border border-yellow-400/30">LEVEL 6: DANCE PARTY</span>
+                </div>
+                <h2 class="text-2xl font-bold font-cursive-title text-pink-200">Happy Happy Cat!</h2>
+                <p class="text-xs text-purple-200/80 mb-4">Tap the cat 5 times to hear cute meows!</p>
+
+                <!-- Bouncing Happy Cat Canvas/SVG Graphic -->
+                <div id="happy-cat-btn" class="relative cursor-pointer group my-2 transition-transform duration-150 active:scale-95">
+                    <div class="w-40 h-40 sm:w-48 sm:h-48 rounded-full bg-gradient-to-tr from-pink-400/30 to-purple-500/30 border-2 border-pink-300/50 flex items-center justify-center shadow-2xl relative overflow-hidden animate-wiggle">
+                        <span id="cat-emoji" class="text-8xl sm:text-9xl filter drop-shadow-lg transform transition-transform group-hover:scale-110">😺</span>
+                        <!-- Sound Wave Visualizer Ring -->
+                        <div id="cat-ripple" class="absolute inset-0 rounded-full border-2 border-pink-400/0 opacity-0 pointer-events-none"></div>
+                    </div>
+                    <div class="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-pink-500 text-white text-[10px] font-bold px-3 py-0.5 rounded-full shadow">
+                        MEOW ME! 🐾
+                    </div>
+                </div>
+
+                <!-- Taps Counter Bar -->
+                <div class="w-full max-w-xs mt-4">
+                    <div class="flex justify-between text-xs text-purple-200 mb-1">
+                        <span>Cat Happiness:</span>
+                        <span id="cat-tap-count" class="font-bold text-pink-300">0 / 5</span>
+                    </div>
+                    <div class="w-full h-3 bg-purple-950 rounded-full overflow-hidden border border-pink-400/30">
+                        <div id="cat-progress" class="h-full bg-gradient-to-r from-pink-400 to-purple-400 w-0 transition-all duration-300"></div>
+                    </div>
+                </div>
+
+                <button id="l6-continue-btn" class="hidden mt-6 glass-button px-6 py-2.5 rounded-xl text-sm font-semibold text-white animate-bounce">
+                    Continue Journey ✨
+                </button>
+            </div>
+        </section>
+
+        <!-- ==================== LEVEL 7: YOUR FAULT (6 FLIP CARDS) ==================== -->
+        <section id="level-7" class="hidden w-full flex flex-col items-center text-center space-y-4">
+            <div class="max-w-2xl w-full">
+                <div class="mb-4">
+                    <h2 class="text-2xl sm:text-3xl font-bold font-cursive-title text-pink-200">It's All Your Fault! 💕</h2>
+                    <p class="text-xs sm:text-sm text-purple-200/80">Flip all 6 cards to reveal why you're guilty!</p>
+                </div>
+
+                <!-- 2x3 Grid of 3D Flip Cards -->
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 w-full">
+                    
+                    <!-- Card 1 -->
+                    <div class="flip-card h-32 sm:h-36 perspective-1000 cursor-pointer" data-card="1">
+                        <div class="flip-card-inner relative w-full h-full transform-style-3d rounded-2xl shadow-xl">
+                            <div class="flip-card-front absolute inset-0 backface-hidden glass-card rounded-2xl border-2 border-pink-400/40 flex flex-col items-center justify-center p-2 text-pink-200">
+                                <i class="fa-solid fa-heart text-pink-400 text-2xl mb-1"></i>
+                                <span class="font-bold text-xs uppercase tracking-wider">YOUR FAULT</span>
+                            </div>
+                            <div class="flip-card-back absolute inset-0 backface-hidden bg-gradient-to-br from-pink-500 to-purple-600 rounded-2xl border-2 border-white/40 rotate-y-180 flex items-center justify-center p-3 text-center text-white">
+                                <p class="text-xs font-medium leading-tight">Making my heart skip a beat every single day! 💓</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="flip-card h-32 sm:h-36 perspective-1000 cursor-pointer" data-card="2">
+                        <div class="flip-card-inner relative w-full h-full transform-style-3d rounded-2xl shadow-xl">
+                            <div class="flip-card-front absolute inset-0 backface-hidden glass-card rounded-2xl border-2 border-pink-400/40 flex flex-col items-center justify-center p-2 text-pink-200">
+                                <i class="fa-solid fa-smile text-yellow-300 text-2xl mb-1"></i>
+                                <span class="font-bold text-xs uppercase tracking-wider">YOUR FAULT</span>
+                            </div>
+                            <div class="flip-card-back absolute inset-0 backface-hidden bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl border-2 border-white/40 rotate-y-180 flex items-center justify-center p-3 text-center text-white">
+                                <p class="text-xs font-medium leading-tight">Making me laugh like an idiot at my phone! 😄</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="flip-card h-32 sm:h-36 perspective-1000 cursor-pointer" data-card="3">
+                        <div class="flip-card-inner relative w-full h-full transform-style-3d rounded-2xl shadow-xl">
+                            <div class="flip-card-front absolute inset-0 backface-hidden glass-card rounded-2xl border-2 border-pink-400/40 flex flex-col items-center justify-center p-2 text-pink-200">
+                                <i class="fa-solid fa-star text-amber-300 text-2xl mb-1"></i>
+                                <span class="font-bold text-xs uppercase tracking-wider">YOUR FAULT</span>
+                            </div>
+                            <div class="flip-card-back absolute inset-0 backface-hidden bg-gradient-to-br from-pink-600 to-indigo-600 rounded-2xl border-2 border-white/40 rotate-y-180 flex items-center justify-center p-3 text-center text-white">
+                                <p class="text-xs font-medium leading-tight">Stealing my thoughts 24/7 effortlessly! ✨</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 4 -->
+                    <div class="flip-card h-32 sm:h-36 perspective-1000 cursor-pointer" data-card="4">
+                        <div class="flip-card-inner relative w-full h-full transform-style-3d rounded-2xl shadow-xl">
+                            <div class="flip-card-front absolute inset-0 backface-hidden glass-card rounded-2xl border-2 border-pink-400/40 flex flex-col items-center justify-center p-2 text-pink-200">
+                                <i class="fa-solid fa-face-kiss-wink-heart text-pink-300 text-2xl mb-1"></i>
+                                <span class="font-bold text-xs uppercase tracking-wider">YOUR FAULT</span>
+                            </div>
+                            <div class="flip-card-back absolute inset-0 backface-hidden bg-gradient-to-br from-indigo-500 to-pink-500 rounded-2xl border-2 border-white/40 rotate-y-180 flex items-center justify-center p-3 text-center text-white">
+                                <p class="text-xs font-medium leading-tight">Being impossibly adorable all the time! 🥹</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 5 -->
+                    <div class="flip-card h-32 sm:h-36 perspective-1000 cursor-pointer" data-card="5">
+                        <div class="flip-card-inner relative w-full h-full transform-style-3d rounded-2xl shadow-xl">
+                            <div class="flip-card-front absolute inset-0 backface-hidden glass-card rounded-2xl border-2 border-pink-400/40 flex flex-col items-center justify-center p-2 text-pink-200">
+                                <i class="fa-solid fa-cloud text-blue-300 text-2xl mb-1"></i>
+                                <span class="font-bold text-xs uppercase tracking-wider">YOUR FAULT</span>
+                            </div>
+                            <div class="flip-card-back absolute inset-0 backface-hidden bg-gradient-to-br from-purple-600 to-pink-500 rounded-2xl border-2 border-white/40 rotate-y-180 flex items-center justify-center p-3 text-center text-white">
+                                <p class="text-xs font-medium leading-tight">Giving the warmest hugs in existence! ☁️</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 6 -->
+                    <div class="flip-card h-32 sm:h-36 perspective-1000 cursor-pointer" data-card="6">
+                        <div class="flip-card-inner relative w-full h-full transform-style-3d rounded-2xl shadow-xl">
+                            <div class="flip-card-front absolute inset-0 backface-hidden glass-card rounded-2xl border-2 border-pink-400/40 flex flex-col items-center justify-center p-2 text-pink-200">
+                                <i class="fa-solid fa-gem text-cyan-300 text-2xl mb-1"></i>
+                                <span class="font-bold text-xs uppercase tracking-wider">YOUR FAULT</span>
+                            </div>
+                            <div class="flip-card-back absolute inset-0 backface-hidden bg-gradient-to-br from-pink-500 to-purple-700 rounded-2xl border-2 border-white/40 rotate-y-180 flex items-center justify-center p-3 text-center text-white">
+                                <p class="text-xs font-medium leading-tight">Making me fall deeper in love every day! 💎</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4 flex justify-between items-center text-xs text-purple-200">
+                    <span>Flipped: <strong id="cards-flipped-count" class="text-pink-300">0 / 6</strong></span>
+                    <button id="l7-next-btn" class="hidden glass-button px-5 py-2 rounded-xl text-xs font-semibold text-white animate-bounce">
+                        Next Level ➔
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== LEVEL 8: SCRATCH CARDS (4 CARDS) ==================== -->
+        <section id="level-8" class="hidden w-full flex flex-col items-center text-center space-y-4">
+            <div class="max-w-lg w-full">
+                <div class="mb-3">
+                    <h2 class="text-2xl font-bold font-cursive-title text-pink-200">Scratch & Win Coupons! 🎫</h2>
+                    <p class="text-xs text-purple-200/80">Use your finger/cursor to scratch off all 4 cards!</p>
+                </div>
+
+                <!-- 2x2 Grid of Scratch Cards -->
+                <div class="grid grid-cols-2 gap-3 sm:gap-4 w-full">
+                    
+                    <!-- Scratch Card 1 -->
+                    <div class="relative h-36 sm:h-40 rounded-2xl overflow-hidden shadow-2xl border-2 border-pink-300/40 bg-gradient-to-br from-pink-100 to-amber-100 flex flex-col items-center justify-center p-3 text-gray-800 text-center">
+                        <span class="text-2xl mb-1">🤗</span>
+                        <h4 class="font-bold text-xs sm:text-sm text-purple-950">Unlimited Hugs</h4>
+                        <p class="text-[10px] text-gray-600 mt-0.5">Valid anytime, anywhere forever!</p>
+                        <canvas class="scratch-canvas absolute inset-0 w-full h-full z-10" data-card="1"></canvas>
+                    </div>
+
+                    <!-- Scratch Card 2 -->
+                    <div class="relative h-36 sm:h-40 rounded-2xl overflow-hidden shadow-2xl border-2 border-pink-300/40 bg-gradient-to-br from-purple-100 to-pink-100 flex flex-col items-center justify-center p-3 text-gray-800 text-center">
+                        <span class="text-2xl mb-1">☕</span>
+                        <h4 class="font-bold text-xs sm:text-sm text-purple-950">Late Night Date</h4>
+                        <p class="text-[10px] text-gray-600 mt-0.5">Coffee, treats & endless talks!</p>
+                        <canvas class="scratch-canvas absolute inset-0 w-full h-full z-10" data-card="2"></canvas>
+                    </div>
+
+                    <!-- Scratch Card 3 -->
+                    <div class="relative h-36 sm:h-40 rounded-2xl overflow-hidden shadow-2xl border-2 border-pink-300/40 bg-gradient-to-br from-pink-100 to-indigo-100 flex flex-col items-center justify-center p-3 text-gray-800 text-center">
+                        <span class="text-2xl mb-1">👑</span>
+                        <h4 class="font-bold text-xs sm:text-sm text-purple-950">Free Win Pass</h4>
+                        <p class="text-[10px] text-gray-600 mt-0.5">Instant win in any small argument!</p>
+                        <canvas class="scratch-canvas absolute inset-0 w-full h-full z-10" data-card="3"></canvas>
+                    </div>
+
+                    <!-- Scratch Card 4 -->
+                    <div class="relative h-36 sm:h-40 rounded-2xl overflow-hidden shadow-2xl border-2 border-pink-300/40 bg-gradient-to-br from-amber-100 to-pink-100 flex flex-col items-center justify-center p-3 text-gray-800 text-center">
+                        <span class="text-2xl mb-1">💆‍♀️</span>
+                        <h4 class="font-bold text-xs sm:text-sm text-purple-950">Head Massage</h4>
+                        <p class="text-[10px] text-gray-600 mt-0.5">30 mins guaranteed relaxing massage!</p>
+                        <canvas class="scratch-canvas absolute inset-0 w-full h-full z-10" data-card="4"></canvas>
+                    </div>
+                </div>
+
+                <div class="mt-4 flex justify-between items-center text-xs text-purple-200">
+                    <span>Scratched: <strong id="scratched-count" class="text-pink-300">0 / 4</strong></span>
+                    <button id="l8-next-btn" class="hidden glass-button px-5 py-2 rounded-xl text-xs font-semibold text-white animate-bounce">
+                        Claim Gifts ➔
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== LEVEL 9: CHOOSE A GIFT ==================== -->
+        <section id="level-9" class="hidden w-full flex flex-col items-center text-center space-y-4">
+            <div class="max-w-md w-full glass-card p-6 rounded-3xl border border-pink-300/30 flex flex-col items-center">
+                <div class="mb-4">
+                    <h2 class="text-2xl font-bold font-cursive-title text-pink-200">Surprise Boxes 🎁</h2>
+                    <p class="text-xs text-purple-200/80">Tap all 3 boxes to unwrap your special gifts!</p>
+                </div>
+
+                <div class="grid grid-cols-3 gap-3 w-full my-2">
+                    
+                    <!-- Gift 1 -->
+                    <div class="gift-box flex flex-col items-center cursor-pointer group" data-gift="1">
+                        <div class="w-20 h-20 sm:w-24 sm:h-24 bg-gradient-to-tr from-pink-500 to-purple-600 rounded-2xl shadow-xl border-2 border-pink-300 relative flex items-center justify-center transition-transform group-hover:scale-105">
+                            <div class="absolute inset-x-0 h-4 bg-amber-300/80 top-1/2 -translate-y-1/2"></div>
+                            <div class="absolute inset-y-0 w-4 bg-amber-300/80 left-1/2 -translate-x-1/2"></div>
+                            <span class="gift-icon text-3xl z-10">🎁</span>
+                        </div>
+                        <span class="gift-label text-[11px] font-semibold text-pink-200 mt-2">Box #1</span>
+                    </div>
+
+                    <!-- Gift 2 -->
+                    <div class="gift-box flex flex-col items-center cursor-pointer group" data-gift="2">
+                        <div class="w-20 h-20 sm:w-24 sm:h-24 bg-gradient-to-tr from-purple-600 to-indigo-600 rounded-2xl shadow-xl border-2 border-purple-300 relative flex items-center justify-center transition-transform group-hover:scale-105">
+                            <div class="absolute inset-x-0 h-4 bg-pink-300/80 top-1/2 -translate-y-1/2"></div>
+                            <div class="absolute inset-y-0 w-4 bg-pink-300/80 left-1/2 -translate-x-1/2"></div>
+                            <span class="gift-icon text-3xl z-10">🎁</span>
+                        </div>
+                        <span class="gift-label text-[11px] font-semibold text-purple-200 mt-2">Box #2</span>
+                    </div>
+
+                    <!-- Gift 3 -->
+                    <div class="gift-box flex flex-col items-center cursor-pointer group" data-gift="3">
+                        <div class="w-20 h-20 sm:w-24 sm:h-24 bg-gradient-to-tr from-pink-600 to-red-500 rounded-2xl shadow-xl border-2 border-pink-300 relative flex items-center justify-center transition-transform group-hover:scale-105">
+                            <div class="absolute inset-x-0 h-4 bg-yellow-200/80 top-1/2 -translate-y-1/2"></div>
+                            <div class="absolute inset-y-0 w-4 bg-yellow-200/80 left-1/2 -translate-x-1/2"></div>
+                            <span class="gift-icon text-3xl z-10">🎁</span>
+                        </div>
+                        <span class="gift-label text-[11px] font-semibold text-pink-200 mt-2">Box #3</span>
+                    </div>
+                </div>
+
+                <!-- Opened Surprise Display Message -->
+                <div id="gift-surprise-box" class="min-h-[60px] w-full bg-purple-950/60 rounded-xl border border-pink-400/30 p-3 mt-3 flex items-center justify-center">
+                    <p id="gift-surprise-text" class="text-xs text-purple-200 italic">Tap any gift box above to reveal its secret!</p>
+                </div>
+
+                <button id="l9-next-btn" class="hidden mt-4 glass-button px-6 py-2 rounded-xl text-xs font-semibold text-white animate-bounce">
+                    Read Love Letter ➔
+                </button>
+            </div>
+        </section>
+
+        <!-- ==================== LEVEL 10: LOVE LETTER ==================== -->
+        <section id="level-10" class="hidden w-full flex flex-col items-center">
+            <div class="w-full max-w-md sm:max-w-lg bg-amber-50 text-gray-900 rounded-2xl p-6 sm:p-8 shadow-2xl border-2 border-amber-200 relative overflow-hidden flex flex-col justify-between min-h-[380px]">
+                
+                <div class="flex justify-between items-center border-b border-amber-200 pb-3 mb-3">
+                    <span class="font-handwritten text-2xl font-bold text-purple-900">Dearest Girl... 💕</span>
+                    <span class="text-xs text-amber-700 font-mono">Special Edition</span>
+                </div>
+
+                <!-- Typewriter Container -->
+                <div class="my-2 flex-1">
+                    <p id="typewriter-text" class="font-handwritten text-xl sm:text-2xl text-gray-800 leading-relaxed typewriter-cursor">
+                        <!-- Content typed dynamically JS -->
+                    </p>
+                </div>
+
+                <div class="pt-3 border-t border-amber-200 flex justify-between items-center">
+                    <span class="font-handwritten text-base text-pink-600 font-bold">Forever Yours ❤️</span>
+                    <button id="l10-next-btn" class="hidden bg-pink-600 hover:bg-pink-700 text-white font-semibold text-xs px-5 py-2 rounded-xl shadow transition-all animate-bounce">
+                        Hold My Hand ➔
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== FINAL LEVEL: HOLD MY HAND ==================== -->
+        <section id="level-11" class="hidden w-full flex flex-col items-center text-center space-y-6">
+            <div class="glass-card p-6 sm:p-10 rounded-3xl max-w-md w-full border border-pink-300/30 flex flex-col items-center">
+                <div class="mb-2">
+                    <span class="text-xs px-3 py-1 bg-pink-500/20 text-pink-300 font-bold rounded-full border border-pink-400/30">FINAL STEP</span>
+                </div>
+                <h2 class="text-2xl font-bold font-cursive-title text-pink-200 mb-1">Hold My Hand 🤝</h2>
+                <p class="text-xs text-purple-200/80 mb-6">Press and hold the button below for 3 seconds!</p>
+
+                <!-- Interactive Hold Button with Ring Progress -->
+                <div class="relative flex items-center justify-center">
+                    <!-- Circular SVG Progress Ring -->
+                    <svg class="w-40 h-40 transform -rotate-90">
+                        <circle cx="80" cy="80" r="70" stroke="rgba(255,255,255,0.1)" stroke-width="8" fill="transparent" />
+                        <circle id="hold-progress-ring" cx="80" cy="80" r="70" stroke="#ec4899" stroke-width="8" fill="transparent" stroke-dasharray="440" stroke-dashoffset="440" stroke-linecap="round" class="transition-all duration-75" />
+                    </svg>
+
+                    <!-- Inner Touch/Mouse Target -->
+                    <button id="hold-btn" class="absolute w-28 h-28 rounded-full bg-gradient-to-tr from-pink-500 to-purple-600 text-white flex flex-col items-center justify-center shadow-2xl border-2 border-white/40 active:scale-95 transition-transform select-none touch-none">
+                        <span class="text-3xl mb-1">🤝</span>
+                        <span class="text-[10px] font-bold tracking-wider">HOLD HERE</span>
+                    </button>
+                </div>
+
+                <p id="hold-status-text" class="text-xs text-pink-300 font-semibold mt-4">Don't let go...</p>
+            </div>
+        </section>
+
+        <!-- ==================== ENDING SEQUENCE ==================== -->
+        <section id="ending-sequence" class="hidden w-full flex flex-col items-center text-center space-y-6">
+            <div class="max-w-lg w-full flex flex-col items-center space-y-6">
+                
+                <div id="ending-msg-1" class="transition-all duration-1000 opacity-0 transform translate-y-4">
+                    <h2 class="font-handwritten text-3xl sm:text-4xl text-pink-300">Wait a second beybbb ♡</h2>
+                </div>
+
+                <div id="ending-msg-2" class="hidden transition-all duration-1000 opacity-0 flex flex-col items-center space-y-4">
+                    <div class="w-24 h-24 rounded-full bg-pink-500/20 border-2 border-pink-400/50 flex items-center justify-center text-5xl text-pink-300 animate-pulse shadow-2xl">
+                        💖
+                    </div>
+                    <h1 class="font-cursive-title text-4xl sm:text-5xl text-transparent bg-clip-text bg-gradient-to-r from-pink-200 via-purple-100 to-pink-300 font-bold leading-tight">
+                        Happy Girlfriend's Day ♡
+                    </h1>
+                    <p class="text-lg font-handwritten text-purple-200 max-w-xs">
+                        You mean the absolute world to me. Thank you for making my life so sweet!
+                    </p>
+                </div>
+
+                <div id="ending-actions" class="hidden transition-all duration-1000 opacity-0 flex flex-col gap-3">
+                    <button id="replay-btn" class="glass-button px-8 py-3 rounded-2xl text-sm font-semibold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-rotate-right"></i> Replay Our Journey
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="content-layer p-4 text-center text-[11px] text-purple-300/50">
+        Crafted with infinite love for someone special 💕
+    </footer>
+
+    <!-- CUTE ANTI-SKIP MODAL POPUP -->
+    <div id="skip-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+        <div class="glass-card p-6 rounded-3xl max-w-xs w-full text-center border-2 border-pink-400/50 transform scale-95 transition-transform shadow-2xl">
+            <div class="text-4xl mb-2">🎀</div>
+            <p id="skip-modal-text" class="font-handwritten text-2xl text-pink-200 font-bold mb-4">
+                Beyb just clear the level naah 😭
+            </p>
+            <button id="close-modal-btn" class="glass-button w-full py-2 rounded-xl text-xs text-white font-semibold">
+                Okay, I'll complete it! 💖
+            </button>
+        </div>
+    </div>
+
+    <!-- ACHIEVEMENT TOAST NOTIFICATION -->
+    <div id="achievement-toast" class="fixed top-20 left-1/2 -translate-x-1/2 z-50 glass-card px-4 py-2.5 rounded-full border border-yellow-400/50 text-yellow-200 text-xs font-semibold flex items-center gap-2 shadow-2xl opacity-0 transition-all duration-500 pointer-events-none transform -translate-y-4">
+        <span>🏆</span>
+        <span id="achievement-text">Achievement Unlocked!</span>
+    </div>
+
+    <!-- JAVASCRIPT APP LOGIC -->
+    <script>
+        // ==================== AUDIO SYNTHESIZER (ZERO EXTERNAL ASSETS DEPENDENCY) ====================
+        class SoundEngine {
+            constructor() {
+                this.ctx = null;
+                this.bgmNode = null;
+                this.bgmGain = null;
+                this.isMuted = false;
+                this.isBgmOn = false;
+            }
+
+            initCtx() {
+                if (!this.ctx) {
+                    this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                if (this.ctx.state === 'suspended') {
+                    this.ctx.resume();
+                }
+            }
+
+            playPop() {
+                if (this.isMuted) return;
+                this.initCtx();
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(400, this.ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(800, this.ctx.currentTime + 0.1);
+                gain.gain.setValueAtTime(0.2, this.ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.1);
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start();
+                osc.stop(this.ctx.currentTime + 0.1);
+            }
+
+            playMeow(pitch = 1) {
+                if (this.isMuted) return;
+                this.initCtx();
+                const now = this.ctx.currentTime;
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(450 * pitch, now);
+                osc.frequency.exponentialRampToValueAtTime(750 * pitch, now + 0.15);
+                osc.frequency.exponentialRampToValueAtTime(350 * pitch, now + 0.35);
+
+                gain.gain.setValueAtTime(0.01, now);
+                gain.gain.linearRampToValueAtTime(0.25, now + 0.08);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start(now);
+                osc.stop(now + 0.35);
+            }
+
+            playSparkle() {
+                if (this.isMuted) return;
+                this.initCtx();
+                const freqs = [523.25, 659.25, 783.99, 1046.50];
+                freqs.forEach((f, i) => {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.frequency.value = f;
+                    gain.gain.setValueAtTime(0.05, this.ctx.currentTime + i * 0.05);
+                    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + i * 0.05 + 0.15);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start(this.ctx.currentTime + i * 0.05);
+                    osc.stop(this.ctx.currentTime + i * 0.05 + 0.15);
+                });
+            }
+
+            toggleBGM() {
+                this.initCtx();
+                if (this.isBgmOn) {
+                    if (this.bgmGain) this.bgmGain.gain.setValueAtTime(0, this.ctx.currentTime);
+                    this.isBgmOn = false;
+                    return false;
+                } else {
+                    if (!this.bgmNode) {
+                        // Create soft romantic chord pad synthesizer
+                        const now = this.ctx.currentTime;
+                        this.bgmGain = this.ctx.createGain();
+                        this.bgmGain.gain.setValueAtTime(0.08, now);
+                        this.bgmGain.connect(this.ctx.destination);
+
+                        const chord = [261.63, 329.63, 392.00, 493.88]; // Cmaj7
+                        chord.forEach(freq => {
+                            const osc = this.ctx.createOscillator();
+                            osc.type = 'triangle';
+                            osc.frequency.value = freq;
+                            osc.connect(this.bgmGain);
+                            osc.start();
+                        });
+                    } else {
+                        this.bgmGain.gain.setValueAtTime(0.08, this.ctx.currentTime);
+                    }
+                    this.isBgmOn = true;
+                    return true;
+                }
+            }
+        }
+
+        const sound = new SoundEngine();
+
+        // ==================== APP STATE ====================
+        let currentLevel = 1;
+        const totalLevels = 10;
+        
+        // Skip warning messages
+        const skipQuotes = [
+            "Beyb just clear the level naah 😭🎀",
+            "Still one thing left 👀",
+            "No cheating 😼",
+            "You're too fast 🥹",
+            "Finish this page first naah 💜"
+        ];
+
+        // ==================== LEVEL NAVIGATION & STATE LOGIC ====================
+        function updateLevelBadge() {
+            const badge = document.getElementById('level-indicator');
+            if (currentLevel <= 10) {
+                badge.innerText = `LEVEL ${currentLevel}/10`;
+            } else {
+                badge.innerText = `FINAL 💕`;
+            }
+        }
+
+        function goToLevel(levelNum) {
+            sound.playSparkle();
+            // Hide all levels
+            for (let i = 1; i <= 11; i++) {
+                const el = document.getElementById(`level-${i}`);
+                if (el) el.classList.add('hidden');
+            }
+            document.getElementById('ending-sequence').classList.add('hidden');
+
+            currentLevel = levelNum;
+            updateLevelBadge();
+
+            if (levelNum <= 11) {
+                const target = document.getElementById(`level-${levelNum}`);
+                if (target) target.classList.remove('hidden');
+            } else {
+                // Ending Sequence
+                document.getElementById('ending-sequence').classList.remove('hidden');
+                triggerEndingSequence();
+            }
+
+            // Confetti burst on level transition
+            confetti({
+                particleCount: 25,
+                spread: 60,
+                origin: { y: 0.8 },
+                colors: ['#f472b6', '#c084fc', '#fef3c7']
+            });
+
+            // Haptic feedback if supported
+            if (navigator.vibrate) navigator.vibrate(50);
+        }
+
+        function showSkipModal() {
+            sound.playPop();
+            const modal = document.getElementById('skip-modal');
+            const text = document.getElementById('skip-modal-text');
+            const randomQuote = skipQuotes[Math.floor(Math.random() * skipQuotes.length)];
+            text.innerText = randomQuote;
+            modal.classList.remove('hidden');
+        }
+
+        document.getElementById('close-modal-btn').addEventListener('click', () => {
+            sound.playPop();
+            document.getElementById('skip-modal').classList.add('hidden');
+        });
+
+        function showAchievement(msg) {
+            sound.playSparkle();
+            const toast = document.getElementById('achievement-toast');
+            document.getElementById('achievement-text').innerText = msg;
+            toast.classList.remove('opacity-0', '-translate-y-4');
+            toast.classList.add('opacity-100', 'translate-y-0');
+            setTimeout(() => {
+                toast.classList.remove('opacity-100', 'translate-y-0');
+                toast.classList.add('opacity-0', '-translate-y-4');
+            }, 3000);
+        }
+
+        // ==================== LEVEL 1: HOT AIR BALLOON ====================
+        const balloonBtn = document.getElementById('hot-air-balloon');
+        const landedEnvelope = document.getElementById('landed-envelope');
+        const l1Instruction = document.getElementById('l1-instruction');
+        let balloonClicked = false;
+
+        balloonBtn.addEventListener('click', () => {
+            if (balloonClicked) return;
+            balloonClicked = true;
+            sound.playPop();
+
+            // Float balloon up and away
+            balloonBtn.style.transform = 'translateY(-300px) scale(0.5)';
+            balloonBtn.style.opacity = '0';
+
+            setTimeout(() => {
+                balloonBtn.classList.add('hidden');
+                landedEnvelope.classList.remove('hidden');
+                setTimeout(() => {
+                    landedEnvelope.classList.remove('opacity-0', 'scale-50');
+                    landedEnvelope.classList.add('opacity-100', 'scale-100');
+                }, 50);
+                l1Instruction.innerText = "Tap the letter to unfold it!";
+            }, 800);
+        });
+
+        landedEnvelope.addEventListener('click', () => {
+            goToLevel(2);
+        });
+
+        // ==================== LEVEL 2: ENVELOPE OPENING ====================
+        const envelopeWrapper = document.getElementById('envelope-wrapper');
+        const envelopeFlap = document.getElementById('envelope-flap');
+        const envelopeSeal = document.getElementById('envelope-seal');
+        const slidingLetter = document.getElementById('sliding-letter');
+        let envelopeOpened = false;
+
+        envelopeWrapper.addEventListener('click', () => {
+            if (envelopeOpened) {
+                goToLevel(3);
+                return;
+            }
+            envelopeOpened = true;
+            sound.playPop();
+
+            // Open flap animation
+            envelopeSeal.style.opacity = '0';
+            envelopeFlap.style.transform = 'rotateX(180deg)';
+
+            setTimeout(() => {
+                slidingLetter.classList.remove('opacity-0', 'translate-y-8');
+                slidingLetter.classList.add('opacity-100', '-translate-y-12');
+                document.getElementById('l2-status').innerText = "Tap letter again to open your notebook!";
+            }, 400);
+        });
+
+        // ==================== LEVEL 3: NOTEBOOK COVER ====================
+        document.getElementById('notebook-cover-card').addEventListener('click', () => {
+            goToLevel(4);
+        });
+
+        // ==================== LEVEL 4: NOTEBOOK PAGES ====================
+        document.getElementById('l4-next-btn').addEventListener('click', () => {
+            goToLevel(5);
+        });
+
+        // ==================== LEVEL 5: MEME BREAK ====================
+        const memes = [
+            { emoji: "🐱", text: "Me after seeing your notification!", bg: "from-pink-300 to-purple-400" },
+            { emoji: "🐻", text: "My last 2 braincells thinking about you all day 💭", bg: "from-amber-200 to-pink-300" },
+            { emoji: "🦭", text: "Me waiting for your reply like a cute seal 🥹", bg: "from-blue-200 to-purple-300" },
+            { emoji: "🐹", text: "Sending you 10000+ virtual hugs right now! 💕", bg: "from-pink-400 to-red-300" }
+        ];
+        let currentMemeIndex = 0;
+        let viewedAllMemes = false;
+
+        const memeImgBox = document.getElementById('meme-image-box');
+        const memeCaption = document.getElementById('meme-caption');
+        const memeCounter = document.getElementById('meme-counter');
+        const memePrevBtn = document.getElementById('meme-prev-btn');
+        const memeNextBtn = document.getElementById('meme-next-btn');
+
+        function updateMemeDisplay() {
+            const m = memes[currentMemeIndex];
+            memeImgBox.innerText = m.emoji;
+            memeImgBox.className = `w-32 h-32 sm:w-36 sm:h-36 rounded-2xl bg-gradient-to-br ${m.bg} flex items-center justify-center text-6xl shadow-inner border border-white/40 transition-all duration-300 transform scale-100`;
+            memeCaption.innerText = m.text;
+            memeCounter.innerText = `${currentMemeIndex + 1} / ${memes.length}`;
+
+            memePrevBtn.disabled = currentMemeIndex === 0;
+
+            if (currentMemeIndex === memes.length - 1) {
+                viewedAllMemes = true;
+                memeNextBtn.innerHTML = `Continue <i class="fa-solid fa-arrow-right"></i>`;
+                memeNextBtn.classList.add('animate-bounce');
+            } else {
+                memeNextBtn.innerHTML = `Next <i class="fa-solid fa-chevron-right"></i>`;
+                memeNextBtn.classList.remove('animate-bounce');
+            }
+        }
+
+        memePrevBtn.addEventListener('click', () => {
+            if (currentMemeIndex > 0) {
+                currentMemeIndex--;
+                sound.playPop();
+                updateMemeDisplay();
+            }
+        });
+
+        memeNextBtn.addEventListener('click', () => {
+            if (currentMemeIndex < memes.length - 1) {
+                currentMemeIndex++;
+                sound.playPop();
+                updateMemeDisplay();
+            } else if (viewedAllMemes) {
+                goToLevel(6);
+            }
+        });
+
+        // ==================== LEVEL 6: HAPPY HAPPY CAT ====================
+        let catTaps = 0;
+        const catBtn = document.getElementById('happy-cat-btn');
+        const catCountText = document.getElementById('cat-tap-count');
+        const catProgress = document.getElementById('cat-progress');
+        const l6ContinueBtn = document.getElementById('l6-continue-btn');
+
+        catBtn.addEventListener('click', () => {
+            if (catTaps >= 5) return;
+            catTaps++;
+            sound.playMeow(1 + catTaps * 0.15);
+
+            catCountText.innerText = `${catTaps} / 5`;
+            catProgress.style.width = `${(catTaps / 5) * 100}%`;
+
+            // Cat wiggle effect
+            catBtn.classList.add('scale-125');
+            setTimeout(() => catBtn.classList.remove('scale-125'), 200);
+
+            if (catTaps === 5) {
+                showAchievement("Achievement Unlocked: Cat Lover 😸");
+                l6ContinueBtn.classList.remove('hidden');
+                confetti({ particleCount: 40, spread: 70, origin: { y: 0.6 } });
+            }
+        });
+
+        l6ContinueBtn.addEventListener('click', () => {
+            goToLevel(7);
+        });
+
+        // ==================== LEVEL 7: YOUR FAULT (6 FLIP CARDS) ====================
+        const flipCards = document.querySelectorAll('.flip-card');
+        const flippedCountText = document.getElementById('cards-flipped-count');
+        const l7NextBtn = document.getElementById('l7-next-btn');
+        let flippedCardsSet = new Set();
+
+        flipCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const cardInner = card.querySelector('.flip-card-inner');
+                const cardId = card.getAttribute('data-card');
+
+                if (!flippedCardsSet.has(cardId)) {
+                    cardInner.classList.add('rotate-y-180');
+                    sound.playSparkle();
+                    flippedCardsSet.add(cardId);
+                    flippedCountText.innerText = `${flippedCardsSet.size} / 6`;
+
+                    if (flippedCardsSet.size === 6) {
+                        l7NextBtn.classList.remove('hidden');
+                        showAchievement("All Reasons Unlocked! 💖");
+                    }
+                }
+            });
+        });
+
+        l7NextBtn.addEventListener('click', () => {
+            goToLevel(8);
+            initScratchCards();
+        });
+
+        // ==================== LEVEL 8: SCRATCH CARDS ====================
+        let scratchedCardsSet = new Set();
+        const scratchedCountText = document.getElementById('scratched-count');
+        const l8NextBtn = document.getElementById('l8-next-btn');
+
+        function initScratchCards() {
+            const canvases = document.querySelectorAll('.scratch-canvas');
+            canvases.forEach(canvas => {
+                const ctx = canvas.getContext('2d');
+                const rect = canvas.getBoundingClientRect();
+                canvas.width = rect.width;
+                canvas.height = rect.height;
+
+                // Draw Silver Metallic Shader Coating
+                const grad = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+                grad.addColorStop(0, '#d1d5db');
+                grad.addColorStop(0.5, '#9ca3af');
+                grad.addColorStop(1, '#e5e7eb');
+                ctx.fillStyle = grad;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                // Add text on coating
+                ctx.fillStyle = '#4b5563';
+                ctx.font = 'bold 12px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText('SCRATCH HERE ✨', canvas.width / 2, canvas.height / 2);
+
+                let isScratching = false;
+
+                function scratch(e) {
+                    if (!isScratching) return;
+                    const cRect = canvas.getBoundingClientRect();
+                    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                    const x = clientX - cRect.left;
+                    const y = clientY - cRect.top;
+
+                    ctx.globalCompositeOperation = 'destination-out';
+                    ctx.beginPath();
+                    ctx.arc(x, y, 18, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    checkScratchProgress(canvas);
+                }
+
+                canvas.addEventListener('mousedown', (e) => { isScratching = true; scratch(e); });
+                canvas.addEventListener('mousemove', scratch);
+                canvas.addEventListener('mouseup', () => isScratching = false);
+
+                canvas.addEventListener('touchstart', (e) => { isScratching = true; scratch(e); });
+                canvas.addEventListener('touchmove', scratch);
+                canvas.addEventListener('touchend', () => isScratching = false);
+            });
+        }
+
+        function checkScratchProgress(canvas) {
+            const cardId = canvas.getAttribute('data-card');
+            if (scratchedCardsSet.has(cardId)) return;
+
+            const ctx = canvas.getContext('2d');
+            const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            let transparentPixels = 0;
+
+            for (let i = 3; i < imgData.data.length; i += 16) {
+                if (imgData.data[i] === 0) transparentPixels++;
+            }
+
+            const totalSampled = imgData.data.length / 16;
+            if (transparentPixels / totalSampled > 0.4) {
+                // Clear entire canvas once >40% scratched
+                canvas.style.opacity = '0';
+                canvas.style.pointerEvents = 'none';
+                scratchedCardsSet.add(cardId);
+                sound.playSparkle();
+                scratchedCountText.innerText = `${scratchedCardsSet.size} / 4`;
+
+                if (scratchedCardsSet.size === 4) {
+                    l8NextBtn.classList.remove('hidden');
+                    showAchievement("All Coupons Claimed! 🎟️");
+                }
+            }
+        }
+
+        l8NextBtn.addEventListener('click', () => {
+            goToLevel(9);
+        });
+
+        // ==================== LEVEL 9: CHOOSE A GIFT ====================
+        let openedGifts = new Set();
+        const giftBoxes = document.querySelectorAll('.gift-box');
+        const giftText = document.getElementById('gift-surprise-text');
+        const l9NextBtn = document.getElementById('l9-next-btn');
+
+        const giftSurprises = {
+            "1": "🧸 Giant Teddy Hug Pass Unlocked!",
+            "2": "💍 Secret Infinite Promise Coupon Unlocked!",
+            "3": "🎟️ Late Night Movie & Snacks Ticket Unlocked!"
+        };
+
+        giftBoxes.forEach(box => {
+            box.addEventListener('click', () => {
+                const id = box.getAttribute('data-gift');
+                const icon = box.querySelector('.gift-icon');
+                icon.innerText = "✨";
+                box.classList.add('scale-110');
+                sound.playSparkle();
+
+                giftText.innerText = giftSurprises[id];
+                openedGifts.add(id);
+
+                if (openedGifts.size === 3) {
+                    l9NextBtn.classList.remove('hidden');
+                    showAchievement("All Gifts Opened! 🎁");
+                }
+            });
+        });
+
+        l9NextBtn.addEventListener('click', () => {
+            goToLevel(10);
+            startTypewriter();
+        });
+
+        // ==================== LEVEL 10: LOVE LETTER ====================
+        const letterText = "From the moment you entered my life, everything became softer, brighter, and infinitely sweeter. You turn ordinary moments into my favorite memories. Thank you for being my comfort and my absolute favorite person in the world 💕";
+        let typeIndex = 0;
+
+        function startTypewriter() {
+            const container = document.getElementById('typewriter-text');
+            container.innerText = "";
+            typeIndex = 0;
+
+            function type() {
+                if (typeIndex < letterText.length) {
+                    container.innerText += letterText.charAt(typeIndex);
+                    typeIndex++;
+                    sound.playPop();
+                    setTimeout(type, 45);
+                } else {
+                    document.getElementById('l10-next-btn').classList.remove('hidden');
+                }
+            }
+            type();
+        }
+
+        document.getElementById('l10-next-btn').addEventListener('click', () => {
+            goToLevel(11);
+        });
+
+        // ==================== FINAL LEVEL: HOLD MY HAND ====================
+        const holdBtn = document.getElementById('hold-btn');
+        const progressRing = document.getElementById('hold-progress-ring');
+        const holdStatus = document.getElementById('hold-status-text');
+        let holdTimer = null;
+        let holdProgress = 0;
+
+        function startHold(e) {
+            e.preventDefault();
+            holdProgress = 0;
+            holdStatus.innerText = "Holding tight...";
+
+            holdTimer = setInterval(() => {
+                holdProgress += 2;
+                // Ring dash offset calculation (440 full)
+                const offset = 440 - (440 * holdProgress) / 100;
+                progressRing.style.strokeDashoffset = offset;
+
+                if (holdProgress % 10 === 0) sound.playPop();
+
+                if (holdProgress >= 100) {
+                    clearInterval(holdTimer);
+                    holdStatus.innerText = "Complete! 💕";
+                    sound.playSparkle();
+                    setTimeout(() => {
+                        goToLevel(12); // Triggers Ending Sequence
+                    }, 500);
+                }
+            }, 30);
+        }
+
+        function cancelHold() {
+            if (holdTimer) clearInterval(holdTimer);
+            holdProgress = 0;
+            progressRing.style.strokeDashoffset = 440;
+            holdStatus.innerText = "Press and hold for 3 seconds!";
+        }
+
+        holdBtn.addEventListener('mousedown', startHold);
+        holdBtn.addEventListener('mouseup', cancelHold);
+        holdBtn.addEventListener('mouseleave', cancelHold);
+
+        holdBtn.addEventListener('touchstart', startHold);
+        holdBtn.addEventListener('touchend', cancelHold);
+
+        // ==================== ENDING SEQUENCE ====================
+        function triggerEndingSequence() {
+            const msg1 = document.getElementById('ending-msg-1');
+            const msg2 = document.getElementById('ending-msg-2');
+            const actions = document.getElementById('ending-actions');
+
+            setTimeout(() => {
+                msg1.classList.remove('opacity-0', 'translate-y-4');
+                msg1.classList.add('opacity-100', 'translate-y-0');
+            }, 500);
+
+            setTimeout(() => {
+                msg1.classList.add('opacity-0');
+                setTimeout(() => msg1.classList.add('hidden'), 500);
+
+                msg2.classList.remove('hidden');
+                setTimeout(() => {
+                    msg2.classList.remove('opacity-0');
+                    msg2.classList.add('opacity-100');
+                    confetti({ particleCount: 100, spread: 100, origin: { y: 0.5 } });
+                }, 100);
+            }, 3000);
+
+            setTimeout(() => {
+                actions.classList.remove('hidden');
+                setTimeout(() => {
+                    actions.classList.remove('opacity-0');
+                    actions.classList.add('opacity-100');
+                }, 100);
+            }, 5500);
+        }
+
+        document.getElementById('replay-btn').addEventListener('click', () => {
+            location.reload();
+        });
+
+        // Audio Toggle Listeners
+        document.getElementById('bgm-toggle').addEventListener('click', () => {
+            const active = sound.toggleBGM();
+            const icon = document.getElementById('bgm-icon');
+            icon.className = active ? "fa-solid fa-music text-pink-400" : "fa-solid fa-music-slash";
+        });
+
+        document.getElementById('sfx-toggle').addEventListener('click', () => {
+            sound.isMuted = !sound.isMuted;
+            const icon = document.getElementById('sfx-icon');
+            icon.className = sound.isMuted ? "fa-solid fa-volume-xmark text-red-400" : "fa-solid fa-volume-high";
+        });
+
+        // ==================== BACKGROUND & SPARKLE CURSOR CANVAS ====================
+        const bgCanvas = document.getElementById('bg-canvas');
+        const bgCtx = bgCanvas.getContext('2d');
+        const spCanvas = document.getElementById('sparkle-canvas');
+        const spCtx = spCanvas.getContext('2d');
+
+        let width, height;
+        function resizeCanvas() {
+            width = bgCanvas.width = spCanvas.width = window.innerWidth;
+            height = bgCanvas.height = spCanvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        // Background floating particles
+        const floatingParticles = Array.from({ length: 25 }, () => ({
+            x: Math.random() * width,
+            y: Math.random() * height,
+            size: Math.random() * 12 + 8,
+            speedY: Math.random() * 0.8 + 0.2,
+            opacity: Math.random() * 0.5 + 0.2,
+            symbol: ['💖', '✨', '🌸', '☁️'][Math.floor(Math.random() * 4)]
+        }));
+
+        function drawBg() {
+            bgCtx.clearRect(0, 0, width, height);
+            floatingParticles.forEach(p => {
+                p.y -= p.speedY;
+                if (p.y < -20) p.y = height + 20;
+                bgCtx.globalAlpha = p.opacity;
+                bgCtx.font = `${p.size}px sans-serif`;
+                bgCtx.fillText(p.symbol, p.x, p.y);
+            });
+            requestAnimationFrame(drawBg);
+        }
+        drawBg();
+
+        // Cursor Sparkles
+        const sparkles = [];
+        function addSparkle(x, y) {
+            sparkles.push({
+                x, y,
+                size: Math.random() * 8 + 4,
+                color: `hsl(${Math.random() * 60 + 300}, 100%, 75%)`,
+                vx: (Math.random() - 0.5) * 2,
+                vy: (Math.random() - 0.5) * 2 - 1,
+                life: 1
+            });
+        }
+
+        window.addEventListener('mousemove', (e) => {
+            addSparkle(e.clientX, e.clientY);
+        });
+        window.addEventListener('touchmove', (e) => {
+            if (e.touches[0]) addSparkle(e.touches[0].clientX, e.touches[0].clientY);
+        });
+
+        function drawSparkles() {
+            spCtx.clearRect(0, 0, width, height);
+            for (let i = sparkles.length - 1; i >= 0; i--) {
+                const s = sparkles[i];
+                s.x += s.vx;
+                s.y += s.vy;
+                s.life -= 0.03;
+                if (s.life <= 0) {
+                    sparkles.splice(i, 1);
+                    continue;
+                }
+                spCtx.globalAlpha = s.life;
+                spCtx.fillStyle = s.color;
+                spCtx.beginPath();
+                spCtx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+                spCtx.fill();
+            }
+            requestAnimationFrame(drawSparkles);
+        }
+        drawSparkles();
+
+        // Inactivity 10s check
+        let inactivityTimer;
+        function resetInactivity() {
+            clearTimeout(inactivityTimer);
+            inactivityTimer = setTimeout(() => {
+                showAchievement("Still there? 🥹💕");
+            }, 10000);
+        }
+        window.addEventListener('pointerdown', resetInactivity);
+        window.addEventListener('pointermove', resetInactivity);
+        resetInactivity();
+    </script>
+</body>
+</html>
+
+```
+
