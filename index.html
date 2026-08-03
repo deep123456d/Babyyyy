@@ -1,0 +1,1398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Only For Her 💖 - An Interactive Love Journey</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Poppins:wght@300;400;500;600&family=Sacramento&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       1. CSS CUSTOM PROPERTIES & DARK DREAMY THEME SYSTEM
+       ========================================================================== */
+    :root {
+      --color-bg-dark: #120721;
+      --color-bg-card: rgba(28, 14, 45, 0.75);
+      --color-cream: #FBF7F4;
+      --color-baby-pink: #FCE7F0;
+      --color-rose-pastel: #F3C5DC;
+      --color-lavender: #D8B4E2;
+      --color-purple: #B388EB;
+      --color-deep-violet: #8A5CBF;
+      --color-gold-glow: #FFE5A3;
+      
+      --glass-bg: rgba(32, 16, 52, 0.65);
+      --glass-border: rgba(243, 197, 220, 0.22);
+      --glass-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(179, 136, 235, 0.15);
+      --glass-blur: blur(20px) saturate(190%);
+      
+      --font-serif: 'Playfair Display', Georgia, serif;
+      --font-handwriting: 'Caveat', 'Sacramento', cursive;
+      --font-sans: 'Poppins', -apple-system, sans-serif;
+      
+      --transition-smooth: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+      --transition-bounce: all 0.5s cubic-bezier(0.68, -0.55, 0.26, 1.55);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-touch-callout: none;
+    }
+
+    body, html {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: var(--font-sans);
+      background: radial-gradient(circle at 50% 30%, #2A123D 0%, #1A0B2E 50%, #120721 100%);
+      color: var(--color-cream);
+      position: relative;
+    }
+
+    /* Ambient Background Canvas */
+    #ambient-canvas, #sparkle-canvas, #confetti-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+    #ambient-canvas { z-index: 1; }
+    #sparkle-canvas { z-index: 998; }
+    #confetti-canvas { z-index: 999; }
+
+    /* ==========================================================================
+       2. UI HEADER, PROGRESS BAR & LEVEL BADGE
+       ========================================================================== */
+    .app-header {
+      position: absolute;
+      top: 20px;
+      left: 0;
+      width: 100%;
+      padding: 0 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      pointer-events: none;
+    }
+
+    .brand-container {
+      pointer-events: auto;
+    }
+
+    .brand-title {
+      font-family: var(--font-serif);
+      font-size: 1.3rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #FFF, var(--color-rose-pastel));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: 0.5px;
+      text-shadow: 0 0 15px rgba(243, 197, 220, 0.4);
+    }
+
+    .brand-subtitle {
+      font-size: 0.7rem;
+      color: var(--color-lavender);
+      opacity: 0.8;
+      font-weight: 300;
+    }
+
+    .level-badge {
+      background: var(--glass-bg);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border: 1px solid var(--glass-border);
+      padding: 8px 18px;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: var(--color-rose-pastel);
+      box-shadow: var(--glass-shadow);
+      pointer-events: auto;
+      transition: var(--transition-smooth);
+    }
+
+    /* Progress Bar */
+    .progress-bar-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.1);
+      z-index: 101;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 10%;
+      background: linear-gradient(90deg, var(--color-rose-pastel), var(--color-purple), var(--color-gold-glow));
+      box-shadow: 0 0 10px var(--color-rose-pastel);
+      transition: width 0.5s ease-in-out;
+    }
+
+    /* ==========================================================================
+       3. VIEWPORT CONTAINER & LEVEL STAGES
+       ========================================================================== */
+    .viewport-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      z-index: 10;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .level-stage {
+      position: absolute;
+      width: 100%;
+      max-width: 480px;
+      height: 100%;
+      max-height: 850px;
+      padding: 85px 20px 40px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(0.92) translateY(20px);
+      transition: opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1), transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .level-stage.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: scale(1) translateY(0);
+    }
+
+    /* Glass Card Standard */
+    .glass-card {
+      background: var(--glass-bg);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border: 1px solid var(--glass-border);
+      border-radius: 28px;
+      box-shadow: var(--glass-shadow);
+      padding: 28px 22px;
+      width: 100%;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Primary Button */
+    .btn-primary {
+      background: linear-gradient(135deg, var(--color-purple) 0%, var(--color-deep-violet) 100%);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 14px 32px;
+      border-radius: 30px;
+      font-family: var(--font-sans);
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(138, 92, 191, 0.4);
+      transition: var(--transition-bounce);
+      outline: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 18px;
+    }
+
+    .btn-primary:active {
+      transform: scale(0.94);
+    }
+
+    .btn-primary:hover {
+      box-shadow: 0 8px 25px rgba(179, 136, 235, 0.6);
+    }
+
+    /* Micro-Animations */
+    @keyframes wiggle {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(-3deg); }
+      75% { transform: rotate(3deg); }
+    }
+    .wiggle { animation: wiggle 2.5s infinite ease-in-out; }
+
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 15px rgba(243, 197, 220, 0.3); }
+      50% { box-shadow: 0 0 30px rgba(243, 197, 220, 0.7); }
+    }
+    .pulse-glow { animation: pulseGlow 2s infinite; }
+
+    /* ==========================================================================
+       4. LEVEL SPECIFIC INTERACTIVE STYLES
+       ========================================================================== */
+
+    /* Level 1: Hot Air Balloon Intro */
+    .balloon-stage-wrapper {
+      position: relative;
+      width: 100%;
+      height: 380px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    .hot-air-balloon {
+      width: 160px;
+      height: 200px;
+      background: radial-gradient(circle at 35% 30%, #FCE7F0, #D8B4E2 60%, #8A5CBF 100%);
+      border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+      position: absolute;
+      bottom: 0;
+      box-shadow: inset -10px -10px 20px rgba(0,0,0,0.3), 0 15px 35px rgba(179, 136, 235, 0.3);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: transform 3s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .balloon-basket {
+      width: 40px;
+      height: 30px;
+      background: #7A4E29;
+      border-radius: 6px;
+      position: absolute;
+      bottom: -42px;
+      border: 2px solid #A8764B;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .balloon-basket::before, .balloon-basket::after {
+      content: '';
+      position: absolute;
+      top: -20px;
+      width: 2px;
+      height: 20px;
+      background: rgba(255, 255, 255, 0.5);
+    }
+    .balloon-basket::before { left: 8px; }
+    .balloon-basket::after { right: 8px; }
+
+    .envelope-in-basket {
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: transform 0.8s ease;
+    }
+
+    .landing-envelope {
+      position: absolute;
+      font-size: 3.5rem;
+      cursor: pointer;
+      opacity: 0;
+      transform: scale(0.2) translateY(-200px);
+      transition: all 1.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      filter: drop-shadow(0 10px 20px rgba(243, 197, 220, 0.5));
+    }
+
+    .landing-envelope.landed {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+
+    /* Level 2: Envelope Opening */
+    .envelope-box {
+      width: 260px;
+      height: 180px;
+      background: var(--color-bg-card);
+      border: 2px solid var(--color-rose-pastel);
+      border-radius: 16px;
+      position: relative;
+      margin: 20px auto;
+      cursor: pointer;
+      perspective: 1000px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    }
+
+    .envelope-flap-top {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 0;
+      border-left: 130px solid transparent;
+      border-right: 130px solid transparent;
+      border-top: 100px solid var(--color-rose-pastel);
+      transform-origin: top;
+      transition: transform 0.6s ease;
+      z-index: 3;
+    }
+
+    .envelope-box.open .envelope-flap-top {
+      transform: rotateX(180deg);
+    }
+
+    .envelope-letter {
+      position: absolute;
+      top: 10px;
+      left: 15px;
+      width: 230px;
+      height: 150px;
+      background: var(--color-cream);
+      border-radius: 10px;
+      padding: 16px;
+      color: #2D1B36;
+      font-family: var(--font-handwriting);
+      font-size: 1.5rem;
+      transition: transform 0.8s ease;
+      z-index: 2;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    .envelope-box.open .envelope-letter {
+      transform: translateY(-90px);
+    }
+
+    /* Level 3 & 4: Scrapbook Notebook */
+    .scrapbook-cover {
+      background: linear-gradient(135deg, #2D1142 0%, #4A1E6D 100%);
+      border: 3px solid var(--color-rose-pastel);
+      border-radius: 20px;
+      padding: 30px 20px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.5), inset 0 0 20px rgba(243, 197, 220, 0.2);
+      position: relative;
+      cursor: pointer;
+    }
+
+    .scrapbook-title {
+      font-family: var(--font-handwriting);
+      font-size: 2.5rem;
+      color: var(--color-gold-glow);
+      text-shadow: 0 0 10px rgba(255, 229, 163, 0.5);
+      margin-bottom: 12px;
+    }
+
+    .scrapbook-page {
+      background: #FFFDF9;
+      background-image: linear-gradient(#E8E5DE 1px, transparent 1px);
+      background-size: 100% 30px;
+      border-radius: 16px;
+      padding: 35px 25px;
+      min-height: 320px;
+      text-align: left;
+      font-family: var(--font-handwriting);
+      font-size: 1.7rem;
+      line-height: 30px;
+      color: #2D1B36;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      position: relative;
+    }
+
+    .page-turn-tab {
+      position: absolute;
+      bottom: 16px;
+      right: 16px;
+      background: var(--color-rose-pastel);
+      padding: 8px 18px;
+      border-radius: 20px;
+      font-size: 1.1rem;
+      color: #2D1B36;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      transition: var(--transition-bounce);
+    }
+
+    .page-turn-tab:hover {
+      transform: translateX(5px);
+    }
+
+    /* Level 5: Meme Break Stack */
+    .meme-container {
+      width: 100%;
+      height: 270px;
+      border-radius: 20px;
+      overflow: hidden;
+      position: relative;
+      background: var(--color-bg-card);
+      border: 1px solid var(--glass-border);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 16px 0;
+    }
+
+    .meme-emoji {
+      font-size: 5.5rem;
+      filter: drop-shadow(0 0 15px rgba(243, 197, 220, 0.4));
+    }
+
+    /* Level 6: Happy Cat */
+    .cat-avatar {
+      width: 170px;
+      height: 170px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #3D1E5A, #1C0E2E);
+      border: 3px solid var(--color-rose-pastel);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 5rem;
+      cursor: pointer;
+      box-shadow: 0 0 30px rgba(243, 197, 220, 0.4);
+      transition: var(--transition-bounce);
+      margin: 20px auto;
+    }
+
+    .cat-avatar:active {
+      transform: scale(0.88);
+    }
+
+    /* Level 7: 6 Flip Cards */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      width: 100%;
+      margin-top: 14px;
+    }
+
+    .flip-card {
+      height: 110px;
+      perspective: 1000px;
+      cursor: pointer;
+    }
+
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      transform-style: preserve-3d;
+      border-radius: 18px;
+    }
+
+    .flip-card.flipped .flip-card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .flip-card-front, .flip-card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      border-radius: 18px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 12px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .flip-card-front {
+      background: linear-gradient(135deg, #3D1E5A, #2A123D);
+      color: var(--color-rose-pastel);
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+
+    .flip-card-back {
+      background: var(--color-cream);
+      color: #2D1B36;
+      transform: rotateY(180deg);
+      border: 1px solid var(--color-lavender);
+      font-family: var(--font-handwriting);
+      font-size: 1.2rem;
+    }
+
+    /* Level 8: Scratch Cards */
+    .scratch-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      width: 100%;
+      margin-top: 14px;
+    }
+
+    .scratch-card-wrapper {
+      position: relative;
+      width: 100%;
+      height: 110px;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      background: var(--color-cream);
+    }
+
+    .scratch-reward {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 10px;
+      font-family: var(--font-handwriting);
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: var(--color-deep-violet);
+      text-align: center;
+    }
+
+    .scratch-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+      cursor: pointer;
+    }
+
+    /* Level 9: Gift Boxes */
+    .gifts-container {
+      display: flex;
+      justify-content: space-around;
+      width: 100%;
+      margin: 24px 0;
+    }
+
+    .gift-box {
+      font-size: 3.8rem;
+      cursor: pointer;
+      transition: var(--transition-bounce);
+      filter: drop-shadow(0 0 10px rgba(243, 197, 220, 0.3));
+    }
+
+    .gift-box:hover {
+      transform: scale(1.15) rotate(6deg);
+    }
+
+    .gift-box.opened {
+      opacity: 0.5;
+      transform: scale(0.9);
+      cursor: default;
+    }
+
+    /* Level 10: Typewriter Letter */
+    .typewriter-box {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 24px;
+      min-height: 240px;
+      text-align: left;
+      font-family: var(--font-handwriting);
+      font-size: 1.5rem;
+      line-height: 1.6;
+      color: var(--color-cream);
+      box-shadow: inset 0 2px 10px rgba(0,0,0,0.3);
+    }
+
+    /* Final Hold Level */
+    .hold-button {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--color-rose-pastel), var(--color-purple));
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 3.5rem;
+      color: white;
+      margin: 30px auto;
+      box-shadow: 0 0 30px rgba(243, 197, 220, 0.5);
+      cursor: pointer;
+      position: relative;
+    }
+
+    .hold-progress-ring {
+      position: absolute;
+      top: -6px;
+      left: -6px;
+      width: 142px;
+      height: 142px;
+      border-radius: 50%;
+      border: 4px solid transparent;
+      border-top-color: var(--color-gold-glow);
+      transition: transform 0.1s linear;
+      pointer-events: none;
+    }
+
+    /* Toast Notification */
+    .toast-container {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: rgba(28, 14, 45, 0.95);
+      border: 1px solid var(--color-rose-pastel);
+      color: var(--color-cream);
+      padding: 12px 24px;
+      border-radius: 30px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      backdrop-filter: blur(12px);
+      z-index: 1000;
+      opacity: 0;
+      transition: var(--transition-bounce);
+      pointer-events: none;
+    }
+
+    .toast-container.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    /* Ending Sequence Overlay */
+    #ending-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #0B0415;
+      z-index: 2000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 2s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      text-align: center;
+      padding: 30px;
+    }
+
+    #ending-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .ending-text {
+      font-family: var(--font-handwriting);
+      font-size: 2.8rem;
+      color: var(--color-rose-pastel);
+      margin-bottom: 20px;
+      opacity: 0;
+      transition: opacity 1.5s ease;
+      text-shadow: 0 0 20px rgba(243, 197, 220, 0.6);
+    }
+
+    .ending-text.show {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ambient Canvas Elements -->
+  <canvas id="ambient-canvas"></canvas>
+  <canvas id="sparkle-canvas"></canvas>
+  <canvas id="confetti-canvas"></canvas>
+
+  <!-- Progress Bar Header -->
+  <div class="progress-bar-container">
+    <div class="progress-bar-fill" id="progress-fill"></div>
+  </div>
+
+  <header class="app-header">
+    <div class="brand-container">
+      <div class="brand-title">Only For Her 💖</div>
+      <div class="brand-subtitle">An interactive love journey</div>
+    </div>
+    <div class="level-badge" id="level-badge">LEVEL 1/10</div>
+  </header>
+
+  <!-- Viewport Main Container -->
+  <main class="viewport-container">
+
+    <!-- LEVEL 1: HOT AIR BALLOON INTRO -->
+    <section class="level-stage active" id="stage-1">
+      <div class="balloon-stage-wrapper">
+        <div class="hot-air-balloon" id="balloon">
+          <div class="balloon-basket">
+            <div class="envelope-in-basket">💌</div>
+          </div>
+        </div>
+        <div class="landing-envelope" id="landing-envelope">💌</div>
+      </div>
+      <p style="margin-top: 30px; font-weight: 500; color: var(--color-rose-pastel);">Tap the landing envelope to open ✨</p>
+    </section>
+
+    <!-- LEVEL 2: ENVELOPE OPENING -->
+    <section class="level-stage" id="stage-2">
+      <div class="glass-card">
+        <h3 style="font-family: var(--font-serif); margin-bottom: 20px; color: var(--color-rose-pastel);">A Special Delivery 💌</h3>
+        <div class="envelope-box wiggle" id="envelope-box">
+          <div class="envelope-flap-top"></div>
+          <div class="envelope-letter">
+            Tap to open your message... ♡
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LEVEL 3: NOTEBOOK COVER -->
+    <section class="level-stage" id="stage-3">
+      <div class="scrapbook-cover glass-card" id="notebook-cover-btn">
+        <div class="scrapbook-title">TOP SECRET</div>
+        <p style="font-family: var(--font-handwriting); font-size: 1.6rem; color: var(--color-cream); line-height: 1.5;">
+          For: The girl who's responsible for my smile.<br><br>
+          Unauthorized reading prohibited.<br>
+          <em style="color: var(--color-rose-pastel);">...unless you're her. 💜</em>
+        </p>
+        <button class="btn-primary" style="margin-top: 25px;">Open Notebook ➔</button>
+      </div>
+    </section>
+
+    <!-- LEVEL 4: NOTEBOOK PAGES -->
+    <section class="level-stage" id="stage-4">
+      <div class="scrapbook-page">
+        <span style="font-size: 0.9rem; position: absolute; top: 12px; right: 15px; color: #888;">(Don't skip pages 😉)</span>
+        Well...<br>
+        You actually opened it.<br>
+        I knew you would. ♡
+        <div class="page-turn-tab" id="page-turn-btn">Turn the page ➔</div>
+      </div>
+    </section>
+
+    <!-- LEVEL 5: MEME GALLERY BREAK -->
+    <section class="level-stage" id="stage-5">
+      <div class="glass-card">
+        <h3 style="font-family: var(--font-serif); margin-bottom: 12px; color: var(--color-rose-pastel);">Meme Break 🐱</h3>
+        <div class="meme-container">
+          <div class="meme-emoji" id="meme-display">🐱</div>
+        </div>
+        <div id="meme-caption" style="font-weight: 500; min-height: 40px; color: var(--color-cream);">Me after seeing your notification</div>
+        <button class="btn-primary" id="next-meme-btn">Next Meme ➔</button>
+      </div>
+    </section>
+
+    <!-- LEVEL 6: HAPPY HAPPY CAT -->
+    <section class="level-stage" id="stage-6">
+      <div class="glass-card">
+        <h3 style="font-family: var(--font-serif); color: var(--color-rose-pastel);">Make Happy Cat Sing! 😺</h3>
+        <p style="font-size: 0.85rem; margin-top: 6px; opacity: 0.8;">Tap the cat 5 times to unlock!</p>
+        <div class="cat-avatar" id="cat-btn">😺</div>
+        <div id="cat-counter" style="font-weight: 600; color: var(--color-gold-glow);">Taps: 0 / 5</div>
+      </div>
+    </section>
+
+    <!-- LEVEL 7: 6 FLIP CARDS -->
+    <section class="level-stage" id="stage-7">
+      <div class="glass-card">
+        <h3 style="font-family: var(--font-serif); color: var(--color-rose-pastel);">Your Fault! 🙈</h3>
+        <p style="font-size: 0.8rem; margin-bottom: 8px;">Flip all 6 cards to proceed</p>
+        <div class="cards-grid" id="flip-cards-grid">
+          <!-- Dynamically inserted via JavaScript -->
+        </div>
+      </div>
+    </section>
+
+    <!-- LEVEL 8: SCRATCH CARDS -->
+    <section class="level-stage" id="stage-8">
+      <div class="glass-card">
+        <h3 style="font-family: var(--font-serif); color: var(--color-rose-pastel);">Scratch Coupons 🎟️</h3>
+        <p style="font-size: 0.8rem; margin-bottom: 8px;">Scratch off to reveal your rewards!</p>
+        <div class="scratch-grid" id="scratch-grid">
+          <!-- Dynamically inserted via JavaScript -->
+        </div>
+      </div>
+    </section>
+
+    <!-- LEVEL 9: CHOOSE A GIFT -->
+    <section class="level-stage" id="stage-9">
+      <div class="glass-card">
+        <h3 style="font-family: var(--font-serif); color: var(--color-rose-pastel);">Pick Your Gifts 🎁</h3>
+        <p style="font-size: 0.8rem;">Open all 3 gift boxes!</p>
+        <div class="gifts-container">
+          <div class="gift-box" data-index="0">🎁</div>
+          <div class="gift-box" data-index="1">🎁</div>
+          <div class="gift-box" data-index="2">🎁</div>
+        </div>
+        <div id="gift-message" style="font-family: var(--font-handwriting); font-size: 1.5rem; min-height: 40px; color: var(--color-gold-glow);"></div>
+      </div>
+    </section>
+
+    <!-- LEVEL 10: TYPEWRITER LOVE LETTER -->
+    <section class="level-stage" id="stage-10">
+      <div class="glass-card">
+        <h3 style="font-family: var(--font-serif); margin-bottom: 12px; color: var(--color-rose-pastel);">A Letter For You ✍️</h3>
+        <div class="typewriter-box" id="typewriter-content"></div>
+        <button class="btn-primary" id="letter-next-btn" style="display: none;">Final Surprise ➔</button>
+      </div>
+    </section>
+
+    <!-- LEVEL 11: FINAL HOLD HANDS -->
+    <section class="level-stage" id="stage-11">
+      <div class="glass-card">
+        <h3 style="font-family: var(--font-serif); color: var(--color-rose-pastel);">Hold My Hand 🤝</h3>
+        <p style="font-size: 0.85rem; margin-top: 6px;">Press and hold for 3 seconds...</p>
+        <div class="hold-button pulse-glow" id="hold-btn">
+          <div class="hold-progress-ring" id="hold-ring"></div>
+          🤍
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Ending Blackout Overlay Sequence -->
+  <div id="ending-overlay">
+    <div class="ending-text" id="end-text-1">Waite a second beybbb ♡</div>
+    <div class="ending-text" id="end-text-2">Happy Girlfriend's Day 💖</div>
+    <div class="ending-text" id="end-text-3" style="font-size: 1.8rem; color: var(--color-gold-glow);">You mean the absolute world to me.</div>
+  </div>
+
+  <!-- Anti-Bypass Toast Container -->
+  <div class="toast-container" id="toast">Beyb just clear the level naah 😭🎀</div>
+
+  <!-- ==========================================================================
+     5. JAVASCRIPT SYSTEM ENGINE
+     ========================================================================== -->
+  <script>
+    /* --------------------------------------------------------------------------
+       5.1 AUDIO SYNTHESIS ENGINE (WEB AUDIO API)[span_18](start_span)[span_18](end_span)
+       -------------------------------------------------------------------------- */
+    class AudioEngine {
+      constructor() { this.ctx = null; }
+      init() {
+        if (!this.ctx) {
+          this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+      }
+      playMeow(pitch = 1.0) {
+        this.init();
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+
+        osc.type = 'triangle';
+        const baseFreq = 420 * pitch;
+        osc.frequency.setValueAtTime(baseFreq, now);
+        osc.frequency.linearRampToValueAtTime(baseFreq * 1.5, now + 0.12);
+        osc.frequency.exponentialRampToValueAtTime(baseFreq * 0.75, now + 0.4);
+
+        gain.gain.setValueAtTime(0.01, now);
+        gain.gain.linearRampToValueAtTime(0.25, now + 0.05);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.4);
+      }
+      playPop() {
+        this.init();
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(550, now);
+        osc.frequency.exponentialRampToValueAtTime(1100, now + 0.08);
+
+        gain.gain.setValueAtTime(0.15, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.08);
+      }
+    }
+    const audio = new AudioEngine();
+
+    /* --------------------------------------------------------------------------
+       5.2 PARTICLE & CONFETTI CANVAS PHYSICS ENGINE
+       -------------------------------------------------------------------------- */
+    const ambientCanvas = document.getElementById('ambient-canvas');
+    const ambientCtx = ambientCanvas.getContext('2d');
+    const sparkleCanvas = document.getElementById('sparkle-canvas');
+    const sparkleCtx = sparkleCanvas.getContext('2d');
+    const confettiCanvas = document.getElementById('confetti-canvas');
+    const confettiCtx = confettiCanvas.getContext('2d');
+
+    let width, height;
+    function resizeCanvas() {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      ambientCanvas.width = width;
+      ambientCanvas.height = height;
+      sparkleCanvas.width = width;
+      sparkleCanvas.height = height;
+      confettiCanvas.width = width;
+      confettiCanvas.height = height;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    // Floating Particles (Hearts, Stars, Butterflies, Petals)
+    const particles = [];
+    const particleTypes = ['💖', '✨', '🌸', '🦋', '☁️'];
+
+    class AmbientParticle {
+      constructor() { this.reset(); }
+      reset() {
+        this.x = Math.random() * width;
+        this.y = height + 20;
+        this.size = Math.random() * 18 + 12;
+        this.speedY = Math.random() * 1.2 + 0.5;
+        this.symbol = particleTypes[Math.floor(Math.random() * particleTypes.length)];
+        this.opacity = Math.random() * 0.6 + 0.3;
+        this.angle = Math.random() * Math.PI * 2;
+        this.angularVelocity = (Math.random() - 0.5) * 0.02;
+      }
+      update() {
+        this.y -= this.speedY;
+        this.x += Math.sin(this.angle) * 0.6;
+        this.angle += this.angularVelocity;
+        if (this.y < -30) this.reset();
+      }
+      draw() {
+        ambientCtx.save();
+        ambientCtx.globalAlpha = this.opacity;
+        ambientCtx.font = `${this.size}px serif`;
+        ambientCtx.fillText(this.symbol, this.x, this.y);
+        ambientCtx.restore();
+      }
+    }
+
+    for (let i = 0; i < 30; i++) {
+      const p = new AmbientParticle();
+      p.y = Math.random() * height;
+      particles.push(p);
+    }
+
+    // Interactive Sparkle Trail Engine
+    const sparkles = [];
+    class Sparkle {
+      constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.size = Math.random() * 5 + 2;
+        this.speedX = (Math.random() - 0.5) * 3;
+        this.speedY = (Math.random() - 0.5) * 3;
+        this.color = `hsl(${Math.random() * 60 + 280}, 100%, 80%)`;
+        this.life = 1.0;
+        this.decay = Math.random() * 0.03 + 0.02;
+      }
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        this.life -= this.decay;
+      }
+      draw() {
+        sparkleCtx.save();
+        sparkleCtx.globalAlpha = Math.max(0, this.life);
+        sparkleCtx.fillStyle = this.color;
+        sparkleCtx.beginPath();
+        sparkleCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        sparkleCtx.fill();
+        sparkleCtx.restore();
+      }
+    }
+
+    window.addEventListener('pointermove', (e) => {
+      for (let i = 0; i < 2; i++) {
+        sparkles.push(new Sparkle(e.clientX, e.clientY));
+      }
+    });
+
+    // Confetti Engine
+    const confettiList = [];
+    function triggerConfetti() {
+      for (let i = 0; i < 60; i++) {
+        confettiList.push({
+          x: width / 2,
+          y: height / 2,
+          vx: (Math.random() - 0.5) * 12,
+          vy: (Math.random() - 0.8) * 12,
+          size: Math.random() * 8 + 4,
+          color: `hsl(${Math.random() * 360}, 100%, 75%)`,
+          life: 1.0
+        });
+      }
+    }
+
+    function animate() {
+      ambientCtx.clearRect(0, 0, width, height);
+      particles.forEach(p => { p.update(); p.draw(); });
+
+      sparkleCtx.clearRect(0, 0, width, height);
+      for (let i = sparkles.length - 1; i >= 0; i--) {
+        sparkles[i].update();
+        sparkles[i].draw();
+        if (sparkles[i].life <= 0) sparkles.splice(i, 1);
+      }
+
+      confettiCtx.clearRect(0, 0, width, height);
+      for (let i = confettiList.length - 1; i >= 0; i--) {
+        const c = confettiList[i];
+        c.x += c.vx;
+        c.y += c.vy;
+        c.vy += 0.2;
+        c.life -= 0.015;
+        confettiCtx.fillStyle = c.color;
+        confettiCtx.globalAlpha = Math.max(0, c.life);
+        confettiCtx.fillRect(c.x, c.y, c.size, c.size);
+        if (c.life <= 0) confettiList.splice(i, 1);
+      }
+
+      requestAnimationFrame(animate);
+    }
+    animate();
+
+    /* --------------------------------------------------------------------------
+       5.3 STATE MACHINE, LOCKING & INACTIVITY CONTROLLER
+       -------------------------------------------------------------------------- */
+    let currentLevel = 1;
+    const maxLevels = 10;
+    const levelCompletion = new Array(maxLevels + 1).fill(false);
+
+    const toastMessages = [
+      "Beyb just clear the level naah 😭🎀",
+      "Still one thing left 👀",
+      "No cheating 😼",
+      "You're too fast 🥺",
+      "Finish this page first naah 💜"
+    ];
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.innerText = msg || toastMessages[Math.floor(Math.random() * toastMessages.length)];
+      toast.classList.add('show');
+      if (navigator.vibrate) navigator.vibrate([40, 60, 40]);
+      setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+
+    function goToLevel(targetLevel) {
+      if (targetLevel > currentLevel && !levelCompletion[currentLevel]) {
+        showToast();
+        return;
+      }
+
+      document.getElementById(`stage-${currentLevel}`).classList.remove('active');
+      currentLevel = targetLevel;
+      document.getElementById(`stage-${currentLevel}`).classList.add('active');
+
+      document.getElementById('level-badge').innerText = `LEVEL ${Math.min(currentLevel, 10)}/10`;
+      document.getElementById('progress-fill').style.width = `${(Math.min(currentLevel, 10) / 10) * 100}%`;
+
+      audio.playPop();
+      triggerConfetti();
+    }
+
+    // Inactivity Detection
+    let idleTimer;
+    function resetIdleTimer() {
+      clearTimeout(idleTimer);
+      idleTimer = setTimeout(() => {
+        showToast("Still there? 🥹💖");
+      }, 12000);
+    }
+    window.addEventListener('pointerdown', resetIdleTimer);
+    window.addEventListener('pointermove', resetIdleTimer);
+
+    /* --------------------------------------------------------------------------
+       5.4 INTERACTIVE LEVEL IMPLEMENTATIONS
+       -------------------------------------------------------------------------- */
+
+    // Level 1: Hot Air Balloon Rising & Landing Sequence
+    setTimeout(() => {
+      const balloon = document.getElementById('balloon');
+      balloon.style.transform = 'translateY(-280px) scale(0.6)';
+      setTimeout(() => {
+        document.getElementById('landing-envelope').classList.add('landed');
+      }, 1500);
+    }, 1000);
+
+    document.getElementById('landing-envelope').addEventListener('click', () => {
+      levelCompletion[1] = true;
+      goToLevel(2);
+    });
+
+    // Level 2: Envelope Fold
+    const envelopeBox = document.getElementById('envelope-box');
+    envelopeBox.addEventListener('click', () => {
+      envelopeBox.classList.add('open');
+      audio.playPop();
+      setTimeout(() => {
+        levelCompletion[2] = true;
+        goToLevel(3);
+      }, 1200);
+    });
+
+    // Level 3: Notebook Cover
+    document.getElementById('notebook-cover-btn').addEventListener('click', () => {
+      levelCompletion[3] = true;
+      goToLevel(4);
+    });
+
+    // Level 4: Notebook Page
+    document.getElementById('page-turn-btn').addEventListener('click', () => {
+      levelCompletion[4] = true;
+      goToLevel(5);
+    });
+
+    // Level 5: Meme Break Stack
+    const memes = [
+      { emoji: '🐱', caption: 'Me after seeing your notification' },
+      { emoji: '🐻', caption: 'Waiting for your text like...' },
+      { emoji: '🦭', caption: 'Rolling around thinking about you' },
+      { emoji: '🐹', caption: 'Me eating snacks while waiting for you' }
+    ];
+    let memeIndex = 0;
+    document.getElementById('next-meme-btn').addEventListener('click', () => {
+      memeIndex++;
+      audio.playPop();
+      if (memeIndex < memes.length) {
+        document.getElementById('meme-display').innerText = memes[memeIndex].emoji;
+        document.getElementById('meme-caption').innerText = memes[memeIndex].caption;
+      } else {
+        levelCompletion[5] = true;
+        goToLevel(6);
+      }
+    });
+
+    // Level 6: Happy Cat Game
+    let catTaps = 0;
+    document.getElementById('cat-btn').addEventListener('click', () => {
+      catTaps++;
+      audio.playMeow(0.85 + catTaps * 0.15);
+      document.getElementById('cat-counter').innerText = `Taps: ${catTaps} / 5`;
+      if (catTaps >= 5) {
+        levelCompletion[6] = true;
+        setTimeout(() => goToLevel(7), 600);
+      }
+    });
+
+    // Level 7: 6 Flip Cards
+    const cardMessages = [
+      "Why are you so cute?",
+      "Stealing my heart daily",
+      "Making me smile constantly",
+      "Being my favorite human",
+      "Unmatched warm hugs",
+      "Always on my mind"
+    ];
+    const cardsGrid = document.getElementById('flip-cards-grid');
+    let flippedCount = 0;
+
+    cardMessages.forEach((msg) => {
+      const card = document.createElement('div');
+      card.className = 'flip-card';
+      card.innerHTML = `
+        <div class="flip-card-inner">
+          <div class="flip-card-front">YOUR FAULT 💖</div>
+          <div class="flip-card-back">${msg}</div>
+        </div>
+      `;
+      card.addEventListener('click', () => {
+        if (!card.classList.contains('flipped')) {
+          card.classList.add('flipped');
+          audio.playPop();
+          flippedCount++;
+          if (flippedCount >= 6) {
+            levelCompletion[7] = true;
+            setTimeout(() => goToLevel(8), 1000);
+          }
+        }
+      });
+      cardsGrid.appendChild(card);
+    });
+
+    // Level 8: Canvas Scratch Cards
+    const rewards = ["Unlimited Hugs 🎟️", "Late Night Calls 🌙", "Coffee Date ☕", "Warm Cuddles 🧸"];
+    const scratchGrid = document.getElementById('scratch-grid');
+    let scratchedCardsCount = 0;
+
+    rewards.forEach((rewardText) => {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'scratch-card-wrapper';
+      
+      const rewardDiv = document.createElement('div');
+      rewardDiv.className = 'scratch-reward';
+      rewardDiv.innerText = rewardText;
+
+      const canvas = document.createElement('canvas');
+      canvas.className = 'scratch-canvas';
+      canvas.width = 160;
+      canvas.height = 110;
+
+      wrapper.appendChild(rewardDiv);
+      wrapper.appendChild(canvas);
+      scratchGrid.appendChild(wrapper);
+
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#A0A0A0';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = '#C0C0C0';
+      for (let i = 0; i < 300; i++) {
+        ctx.fillRect(Math.random() * canvas.width, Math.random() * canvas.height, 2, 2);
+      }
+
+      let isScratching = false;
+      let scratchedPixels = 0;
+
+      function scratch(e) {
+        if (!isScratching) return;
+        const rect = canvas.getBoundingClientRect();
+        const x = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
+        const y = (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top;
+
+        ctx.globalCompositeOperation = 'destination-out';
+        ctx.beginPath();
+        ctx.arc(x, y, 18, 0, Math.PI * 2);
+        ctx.fill();
+
+        scratchedPixels++;
+        if (scratchedPixels > 35 && !canvas.dataset.completed) {
+          canvas.dataset.completed = "true";
+          scratchedCardsCount++;
+          audio.playPop();
+          if (scratchedCardsCount >= 4) {
+            levelCompletion[8] = true;
+            setTimeout(() => goToLevel(9), 1000);
+          }
+        }
+      }
+
+      canvas.addEventListener('mousedown', () => isScratching = true);
+      canvas.addEventListener('mouseup', () => isScratching = false);
+      canvas.addEventListener('mousemove', scratch);
+      canvas.addEventListener('touchstart', (e) => { isScratching = true; scratch(e); });
+      canvas.addEventListener('touchend', () => isScratching = false);
+      canvas.addEventListener('touchmove', scratch);
+    });
+
+    // Level 9: Gift Boxes
+    const giftSurprises = [
+      "A lifetime supply of kisses! 💋",
+      "Unlimited affection passes! ✨",
+      "My eternal unconditional love! 💖"
+    ];
+    let openedGifts = 0;
+    document.querySelectorAll('.gift-box').forEach(box => {
+      box.addEventListener('click', function() {
+        if (!this.classList.contains('opened')) {
+          this.classList.add('opened');
+          this.innerText = '🎁✨';
+          audio.playPop();
+          const idx = this.dataset.index;
+          document.getElementById('gift-message').innerText = giftSurprises[idx];
+          openedGifts++;
+          if (openedGifts >= 3) {
+            levelCompletion[9] = true;
+            setTimeout(() => goToLevel(10), 1200);
+          }
+        }
+      });
+    });
+
+    // Level 10: Typewriter Letter
+    const letterText = "From the moment you entered my life, everything became brighter, sweeter, and infinitely more magical. You are my happiness, my safe space, and my favorite person in the entire world. I love you endlessly. ♡";
+    let typeIdx = 0;
+
+    function startTypewriter() {
+      const box = document.getElementById('typewriter-content');
+      box.innerText = "";
+      typeIdx = 0;
+      function type() {
+        if (typeIdx < letterText.length) {
+          box.innerText += letterText.charAt(typeIdx);
+          typeIdx++;
+          setTimeout(type, 40);
+        } else {
+          document.getElementById('letter-next-btn').style.display = 'inline-flex';
+        }
+      }
+      type();
+    }
+
+    const observer = new MutationObserver(() => {
+      if (document.getElementById('stage-10').classList.contains('active')) {
+        startTypewriter();
+      }
+    });
+    observer.observe(document.getElementById('stage-10'), { attributes: true, attributeFilter: ['class'] });
+
+    document.getElementById('letter-next-btn').addEventListener('click', () => {
+      levelCompletion[10] = true;
+      goToLevel(11);
+    });
+
+    // Final Hold Hands Level
+    const holdBtn = document.getElementById('hold-btn');
+    let holdTimer = null;
+    let holdProgress = 0;
+
+    function startHold() {
+      holdProgress = 0;
+      holdTimer = setInterval(() => {
+        holdProgress += 10;
+        document.getElementById('hold-ring').style.transform = `rotate(${(holdProgress / 100) * 360}deg)`;
+        if (navigator.vibrate) navigator.vibrate(25);
+        
+        if (holdProgress >= 100) {
+          clearInterval(holdTimer);
+          triggerEndingSequence();
+        }
+      }, 100);
+    }
+
+    function cancelHold() {
+      clearInterval(holdTimer);
+      holdProgress = 0;
+      document.getElementById('hold-ring').style.transform = `rotate(0deg)`;
+    }
+
+    holdBtn.addEventListener('mousedown', startHold);
+    holdBtn.addEventListener('mouseup', cancelHold);
+    holdBtn.addEventListener('mouseleave', cancelHold);
+    holdBtn.addEventListener('touchstart', (e) => { e.preventDefault(); startHold(); });
+    holdBtn.addEventListener('touchend', cancelHold);
+
+    /* --------------------------------------------------------------------------
+       5.5 FINAL CINEMATIC ENDING SEQUENCE
+       -------------------------------------------------------------------------- */
+    function triggerEndingSequence() {
+      const overlay = document.getElementById('ending-overlay');
+      overlay.classList.add('active');
+
+      setTimeout(() => {
+        document.getElementById('end-text-1').classList.add('show');
+      }, 1000);
+
+      setTimeout(() => {
+        document.getElementById('end-text-1').classList.remove('show');
+        document.getElementById('end-text-2').classList.add('show');
+      }, 3500);
+
+      setTimeout(() => {
+        document.getElementById('end-text-3').classList.add('show');
+        triggerConfetti();
+      }, 6000);
+    }
+  </script>
+</body>
+</html>
+
