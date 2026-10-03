@@ -295,14 +295,14 @@
         }
 
         #notebookScreen { display: flex; justify-content: center; align-items: center; }
-        .level-container { width: 100%; max-width: 350px; height: 72dvh; position: relative; margin-top: 35px; }
+        .level-container { width: 100%; max-width: 350px; height: 75dvh; position: relative; margin-top: 35px; }
 
         .level-card {
             position: absolute;
             width: 100%; height: 100%;
             background: #FFFFFF;
             border-radius: 24px;
-            padding: 18px;
+            padding: 20px 18px;
             box-shadow: var(--glass-shadow);
             border: 1px solid rgba(255,255,255,0.9);
             display: flex; flex-direction: column;
@@ -330,7 +330,7 @@
             color: white; border: none;
             padding: 10px 22px; border-radius: 25px;
             font-weight: 800; font-size: 0.82rem;
-            cursor: pointer; margin-top: 8px;
+            cursor: pointer; margin-top: 12px;
             flex-shrink: 0;
             box-shadow: 0 4px 15px rgba(145, 97, 224, 0.3);
             transition: all 0.3s ease;
@@ -425,7 +425,28 @@
         .scratch-reveal { position: absolute; width: 100%; height: 100%; background: #F3ECFE; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 800; color: var(--purple-primary); text-align: center; padding: 6px; }
         .scratch-canvas { position: absolute; top: 0; left: 0; }
 
-        .typewriter-container { font-family: 'Caveat', cursive; font-size: 1.3rem; text-align: left; line-height: 1.45; color: #333; margin: 8px 0; height: 160px; overflow-y: auto; }
+        /* EXPANDED LEVEL 10 TEXT AREA */
+        .typewriter-container {
+            font-family: 'Caveat', cursive;
+            font-size: 1.4rem;
+            text-align: left;
+            line-height: 1.5;
+            color: #333;
+            margin: 12px 0;
+            flex: 1;
+            width: 100%;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            padding: 6px 4px;
+        }
+
+        .typewriter-container::-webkit-scrollbar {
+            width: 4px;
+        }
+        .typewriter-container::-webkit-scrollbar-thumb {
+            background: rgba(145, 97, 224, 0.3);
+            border-radius: 4px;
+        }
 
         /* CINEMATIC ENDING SCREEN & NEON PINK GLOW TEXT */
         #endingScreen { background: #040209; color: #fff; z-index: 4000; transition: background 1.5s ease; }
@@ -433,7 +454,6 @@
         .ending-content { z-index: 2; text-align: center; padding: 20px; max-width: 360px; }
         .glowing-purple-heart { font-size: 4.5rem; margin-bottom: 12px; filter: drop-shadow(0 0 25px var(--purple-accent)); }
         
-        /* CUTE NEON GLOW SCRIPT */
         .ending-text-flow { 
             font-family: 'Alex Brush', cursive; 
             font-size: 2.8rem; 
@@ -606,13 +626,13 @@
                         <div class="meme-slide active-slide"><div class="meme-img-frame"><img src="assets/meme1.jpg.gif" onerror="this.onerror=null; this.src='assets/meme1.gif'; this.onerror=function(){this.src='assets/meme1.jpg';};" alt="Meme 1"></div><p style="font-size: 0.8rem; margin-top: 4px;">Take it beybbb...</p></div>
                         <div class="meme-slide"><div class="meme-img-frame"><img src="assets/meme2.jpg.gif" onerror="this.onerror=null; this.src='assets/meme2.gif'; this.onerror=function(){this.src='assets/meme2.jpg';};" alt="Meme 2"></div><p style="font-size: 0.8rem; margin-top: 4px;">My heart when u call me...</p></div>
                         <div class="meme-slide"><div class="meme-img-frame"><img src="assets/meme3.jpg.gif" onerror="this.onerror=null; this.src='assets/meme3.jpg'; this.onerror=function(){this.src='assets/meme3.jpg';};" alt="Meme 3"></div><p style="font-size: 0.8rem; margin-top: 4px;">whenever I think about U...</p></div>
-                        <div class="meme-slide"><div class="meme-img-frame"><img src="assets/meme4.jpg.gif" onerror="this.onerror=null; this.src='assets/meme4.gif'; this.onerror=function(){this.src='assets/meme4.jpg';};" alt="Meme 4"></div><p style="font-size: 0.8rem; margin-top: 4px;">I need You I need You I need You....</p></div>
+                        <div class="meme-slide"><div class="meme-img-frame"><img src="assets/meme4.jpg.gif" onerror="this.onerror=null; this.src='assets/meme4.jpg'; this.onerror=function(){this.src='assets/meme4.jpg';};" alt="Meme 4"></div><p style="font-size: 0.8rem; margin-top: 4px;">I need You I need You I need You....</p></div>
                         <div class="meme-slide"><div class="meme-img-frame"><img src="assets/meme5.jpg.gif" onerror="this.onerror=null; this.src='assets/meme5.gif'; this.onerror=function(){this.src='assets/meme5.jpg';};" alt="Meme 5"></div><p style="font-size: 0.8rem; margin-top: 4px;">whenever I text uhhh...</p></div>
                         <div class="meme-slide"><div class="meme-img-frame"><img src="assets/meme6.jpg.gif" onerror="this.onerror=null; this.src='assets/meme6.gif'; this.onerror=function(){this.src='assets/meme6.jpg';};" alt="Meme 6"></div><p style="font-size: 0.8rem; margin-top: 4px;">US</p></div>
                         <div class="meme-slide"><div class="meme-img-frame"><img src="assets/meme7.jpg.gif" onerror="this.onerror=null; this.src='assets/meme7.gif'; this.onerror=function(){this.src='assets/meme7.jpg';};" alt="Meme 7"></div><p style="font-size: 0.8rem; margin-top: 4px;">I,</p></div>
-                        <div class="meme-slide"><div class="meme-img-frame"><img src="assets/meme8.jpg.gif" onerror="this.onerror=null; this.src='assets/meme8.gif'; this.onerror=function(){this.src='assets/meme8.jpg';};" alt="Meme 8"></div><p style="font-size: 0.8rem; margin-top: 4px;">whenever u delete something...</p></div>
+                        <div class="meme-slide"><div class="meme-img-frame"><img src="assets/meme8.jpg.gif" onerror="this.onerror=null; this.src='assets/meme8.jpg'; this.onerror=function(){this.src='assets/meme8.jpg';};" alt="Meme 8"></div><p style="font-size: 0.8rem; margin-top: 4px;">whenever u delete something...</p></div>
                         <div class="meme-slide"><div class="meme-img-frame"><img src="assets/meme9.jpg.gif" onerror="this.onerror=null; this.src='assets/meme9.gif'; this.onerror=function(){this.src='assets/meme9.jpg';};" alt="Meme 9"></div><p style="font-size: 0.8rem; margin-top: 4px;">when u hurt my feelings...</p></div>
-                        <div class="meme-slide"><div class="meme-img-frame"><img src="assets/meme10.jpg.gif" onerror="this.onerror=null; this.src='assets/meme10.gif'; this.onerror=function(){this.src='assets/meme10.jpg';};" alt="Meme 10"></div><p style="font-size: 0.8rem; margin-top: 4px;">Stoppp...!!</p></div>
+                        <div class="meme-slide"><div class="meme-img-frame"><img src="assets/meme10.jpg.gif" onerror="this.onerror=null; this.src='assets/meme10.jpg'; this.onerror=function(){this.src='assets/meme10.jpg';};" alt="Meme 10"></div><p style="font-size: 0.8rem; margin-top: 4px;">Stoppp...!!</p></div>
                         <div class="meme-slide"><div class="meme-img-frame"><img src="assets/meme11.jpg.gif" onerror="this.onerror=null; this.src='assets/meme11.gif'; this.onerror=function(){this.src='assets/meme11.jpg';};" alt="Meme 11"></div><p style="font-size: 0.8rem; margin-top: 4px;">Wiee Whieee Wieeeee</p></div>
                         <div class="meme-slide"><div class="meme-img-frame"><img src="assets/meme12.jpg.gif" onerror="this.onerror=null; this.src='assets/meme12.gif'; this.onerror=function(){this.src='assets/meme12.jpg';};" alt="Meme 12"></div><p style="font-size: 0.8rem; margin-top: 4px;">Snow!?</p></div>
                         <div class="meme-slide"><div class="meme-img-frame"><img src="assets/meme13.jpg.gif" onerror="this.onerror=null; this.src='assets/meme13.gif'; this.onerror=function(){this.src='assets/meme13.jpg';};" alt="Meme 13"></div><p style="font-size: 0.8rem; margin-top: 4px;">Come beybbb</p></div>
@@ -719,14 +739,15 @@
                     <div style="display: flex; gap: 10px; margin: 6px 0;">
                         <div class="gift-box-item" data-reward="🫂 One Extra Hug!" style="font-size: 2.5rem; cursor: pointer;">🎁</div>
                         <div class="gift-box-item" data-reward="🎬 Movie Night Voucher!" style="font-size: 2.5rem; cursor: pointer;">🎁</div>
-                        <div class="gift-box-item" data-reward="🛋️ Unlimited Cuddles!" style="font-size: 2.5rem; cursor: pointer;">🎁</div>
+                        <div class="gift-box-item" data-reward="🛋️️ Unlimited Cuddles!" style="font-size: 2.5rem; cursor: pointer;">🎁</div>
                     </div>
                     <div id="giftResult" style="font-family: 'Caveat', cursive; font-size: 1.2rem; color: var(--purple-primary); min-height: 25px;"></div>
                     <button class="next-level-btn btn-squish locked">Turn the page →</button>
                 </div>
 
+                <!-- LEVEL 10: EXPANDED NOTE FOR HER -->
                 <div class="level-card" data-level="10">
-                    <span style="font-size: 0.7rem; color: var(--purple-primary); font-weight: 800;">✦ A NOTE FOR YOU 💜</span>
+                    <span style="font-size: 0.8rem; color: var(--purple-primary); font-weight: 800; letter-spacing: 0.5px; margin-bottom: 4px;">✦ A NOTE FOR YOU 💜</span>
                     <div class="typewriter-container">
                         <p id="typewriterText"></p>
                     </div>
@@ -862,15 +883,15 @@
             // Word unlock array across all 10 stages
             const progressivePhrases = [
                 "I 💗",
-                "I Love ❤️‍🩹",
-                "I Love You 🫂",
+                "I Love 💗",
+                "I Love You 💜",
                 "I Love You Sooo ✨",
                 "I Love You Sooo Muchh 🌸",
                 "I Love You Sooo Muchh Myyy 🧸",
                 "I Love You Sooo Muchh Myyy Cuteee 🎀",
                 "I Love You Sooo Muchh Myyy Cuteee Little 🤍",
-                "I Love You Sooo Muchh Myyy Cuteee Little Babyyy 🥹🎀",
-                "I Love You Sooo Muchh Myyy Cuteee Little Babyyy, Ummmahh😚💋"
+                "I Love You Sooo Muchh Myyy Cuteee Little Babyyy 🥹",
+                "I Love You Sooo Muchh Myyy Cuteee Little Babyyy 😚🎀"
             ];
 
             function updateLevelHUD(levelNum) {
@@ -1225,12 +1246,16 @@
 
             function startTypewriter() {
                 const typewriterEl = document.getElementById('typewriterText');
+                const containerEl = document.querySelector('.typewriter-container');
                 typewriterEl.textContent = "";
                 let i = 0;
                 const timer = setInterval(() => {
                     if (i < personalNoteText.length) {
                         typewriterEl.textContent += personalNoteText.charAt(i);
                         i++;
+                        if (containerEl) {
+                            containerEl.scrollTop = containerEl.scrollHeight;
+                        }
                     } else {
                         clearInterval(timer);
                     }
