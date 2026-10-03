@@ -90,7 +90,6 @@
             pointer-events: none;
         }
 
-        /* UPGRADED CUTE BADGE */
         .level-badge {
             background: var(--glass-bg);
             backdrop-filter: blur(14px);
@@ -422,11 +421,51 @@
 
         .typewriter-container { font-family: 'Caveat', cursive; font-size: 1.3rem; text-align: left; line-height: 1.45; color: #333; margin: 8px 0; height: 160px; overflow-y: auto; }
 
+        /* CINEMATIC ENDING SCREEN & NEON PINK GLOW TEXT */
         #endingScreen { background: #040209; color: #fff; z-index: 4000; transition: background 1.5s ease; }
         .stars-bg { position: absolute; width: 100%; height: 100%; background: radial-gradient(ellipse at bottom, #1a102F 0%, #040209 100%); transition: opacity 1.5s ease; }
-        .ending-content { z-index: 2; text-align: center; padding: 20px; max-width: 320px; }
+        .ending-content { z-index: 2; text-align: center; padding: 20px; max-width: 360px; }
         .glowing-purple-heart { font-size: 4.5rem; margin-bottom: 12px; filter: drop-shadow(0 0 25px var(--purple-accent)); }
-        .ending-text-flow { font-family: 'Playfair Display', serif; font-size: 1.25rem; color: #E6D6FF; min-height: 60px; line-height: 1.5; }
+        
+        /* CUTE NEON GLOW SCRIPT */
+        .ending-text-flow { 
+            font-family: 'Alex Brush', cursive; 
+            font-size: 2.8rem; 
+            line-height: 1.25; 
+            color: #FFE6EE; 
+            min-height: 140px; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 10px;
+            text-shadow: 
+                0 0 6px #FFA3C8,
+                0 0 15px #FF6B9D,
+                0 0 30px #FF3377,
+                0 0 45px #D63384;
+            animation: neonPinkGlow 2.4s ease-in-out infinite alternate;
+        }
+
+        @keyframes neonPinkGlow {
+            0% {
+                text-shadow: 
+                    0 0 6px #FFA3C8,
+                    0 0 15px #FF6B9D,
+                    0 0 25px #FF3377,
+                    0 0 40px #D63384;
+                transform: scale(0.99);
+            }
+            100% {
+                text-shadow: 
+                    0 0 8px #FFFFFF,
+                    0 0 18px #FFA3C8,
+                    0 0 32px #FF528C,
+                    0 0 55px #FF2E75,
+                    0 0 70px #B82260;
+                transform: scale(1.02);
+            }
+        }
         
         .hands-hug-container {
             font-size: 3.5rem;
@@ -561,14 +600,14 @@
                         <div class="meme-slide active-slide"><div class="meme-img-frame"><img src="assets/meme1.jpg.gif" onerror="this.onerror=null; this.src='assets/meme1.gif'; this.onerror=function(){this.src='assets/meme1.jpg';};" alt="Meme 1"></div><p style="font-size: 0.8rem; margin-top: 4px;">Take it beybbb...</p></div>
                         <div class="meme-slide"><div class="meme-img-frame"><img src="assets/meme2.jpg.gif" onerror="this.onerror=null; this.src='assets/meme2.gif'; this.onerror=function(){this.src='assets/meme2.jpg';};" alt="Meme 2"></div><p style="font-size: 0.8rem; margin-top: 4px;">My heart when u call me...</p></div>
                         <div class="meme-slide"><div class="meme-img-frame"><img src="assets/meme3.jpg.gif" onerror="this.onerror=null; this.src='assets/meme3.gif'; this.onerror=function(){this.src='assets/meme3.jpg';};" alt="Meme 3"></div><p style="font-size: 0.8rem; margin-top: 4px;">whenever I think about U...</p></div>
-                        <div class="meme-slide"><div class="meme-img-frame"><img src="assets/meme4.jpg.gif" onerror="this.onerror=null; this.src='assets/meme4.gif'; this.onerror=function(){this.src='assets/meme4.jpg';};" alt="Meme 4"></div><p style="font-size: 0.8rem; margin-top: 4px;">I need You I need You I need You....</p></div>
+                        <div class="meme-slide"><div class="meme-img-frame"><img src="assets/meme4.jpg.gif" onerror="this.onerror=null; this.src='assets/meme4.jpg'; this.onerror=function(){this.src='assets/meme4.jpg';};" alt="Meme 4"></div><p style="font-size: 0.8rem; margin-top: 4px;">I need You I need You I need You....</p></div>
                         <div class="meme-slide"><div class="meme-img-frame"><img src="assets/meme5.jpg.gif" onerror="this.onerror=null; this.src='assets/meme5.gif'; this.onerror=function(){this.src='assets/meme5.jpg';};" alt="Meme 5"></div><p style="font-size: 0.8rem; margin-top: 4px;">whenever I text uhhh...</p></div>
                         <div class="meme-slide"><div class="meme-img-frame"><img src="assets/meme6.jpg.gif" onerror="this.onerror=null; this.src='assets/meme6.gif'; this.onerror=function(){this.src='assets/meme6.jpg';};" alt="Meme 6"></div><p style="font-size: 0.8rem; margin-top: 4px;">US</p></div>
                         <div class="meme-slide"><div class="meme-img-frame"><img src="assets/meme7.jpg.gif" onerror="this.onerror=null; this.src='assets/meme7.gif'; this.onerror=function(){this.src='assets/meme7.jpg';};" alt="Meme 7"></div><p style="font-size: 0.8rem; margin-top: 4px;">I,</p></div>
                         <div class="meme-slide"><div class="meme-img-frame"><img src="assets/meme8.jpg.gif" onerror="this.onerror=null; this.src='assets/meme8.gif'; this.onerror=function(){this.src='assets/meme8.jpg';};" alt="Meme 8"></div><p style="font-size: 0.8rem; margin-top: 4px;">whenever u delete something...</p></div>
                         <div class="meme-slide"><div class="meme-img-frame"><img src="assets/meme9.jpg.gif" onerror="this.onerror=null; this.src='assets/meme9.gif'; this.onerror=function(){this.src='assets/meme9.jpg';};" alt="Meme 9"></div><p style="font-size: 0.8rem; margin-top: 4px;">when u hurt my feelings...</p></div>
                         <div class="meme-slide"><div class="meme-img-frame"><img src="assets/meme10.jpg.gif" onerror="this.onerror=null; this.src='assets/meme10.gif'; this.onerror=function(){this.src='assets/meme10.jpg';};" alt="Meme 10"></div><p style="font-size: 0.8rem; margin-top: 4px;">Stoppp...!!</p></div>
-                        <div class="meme-slide"><div class="meme-img-frame"><img src="assets/meme11.jpg.gif" onerror="this.onerror=null; this.src='assets/meme11.gif'; this.onerror=function(){this.src='assets/meme11.jpg';};" alt="Meme 11"></div><p style="font-size: 0.8rem; margin-top: 4px;">Wiee Whieee Wieeeee</p></div>
+                        <div class="meme-slide"><div class="meme-img-frame"><img src="assets/meme11.jpg.gif" onerror="this.onerror=null; this.src='assets/meme11.jpg'; this.onerror=function(){this.src='assets/meme11.jpg';};" alt="Meme 11"></div><p style="font-size: 0.8rem; margin-top: 4px;">Wiee Whieee Wieeeee</p></div>
                         <div class="meme-slide"><div class="meme-img-frame"><img src="assets/meme12.jpg.gif" onerror="this.onerror=null; this.src='assets/meme12.gif'; this.onerror=function(){this.src='assets/meme12.jpg';};" alt="Meme 12"></div><p style="font-size: 0.8rem; margin-top: 4px;">Snow!?</p></div>
                         <div class="meme-slide"><div class="meme-img-frame"><img src="assets/meme13.jpg.gif" onerror="this.onerror=null; this.src='assets/meme13.gif'; this.onerror=function(){this.src='assets/meme13.jpg';};" alt="Meme 13"></div><p style="font-size: 0.8rem; margin-top: 4px;">Come beybbb</p></div>
                         <div class="meme-slide"><div class="meme-img-frame"><img src="assets/meme14.jpg.gif" onerror="this.onerror=null; this.src='assets/meme14.gif'; this.onerror=function(){this.src='assets/meme14.jpg';};" alt="Meme 14"></div><p style="font-size: 0.8rem; margin-top: 4px;">ehh?</p></div>
@@ -592,7 +631,7 @@
                     </div>
 
                     <div id="achievement" class="hidden" style="background: #FFF8E7; padding: 8px 16px; border-radius: 12px; font-size: 0.82rem; color: #8A6D0B; font-weight: bold; margin-top: 8px; border: 1.5px solid #FFEBB3;">
-                        Ohh 🥺 look u made him cry...😭❤️‍‍🩹
+                        Ohh 🥺 look u made him cry...😭❤️‍🩹
                     </div>
                     <button class="next-level-btn btn-squish locked">Turn the page →</button>
                 </div>
@@ -1223,37 +1262,48 @@
                     gsap.to(bgMusic, { volume: 0.15, duration: 4.0, ease: "power1.out" });
                 }
 
+                // Cute ending dialogue matching the image vibe
                 const lines = [
-                    "Wait a second, Beybb...",
-                    "Before you leave...",
-                    "There's one thing I need you to know."
+                    "Wait a second<br>beybbb... 💕",
+                    "Before you go away... 🥺",
+                    "There's one little thing<br>I need you to know... 🌸"
                 ];
                 let lineIdx = 0;
 
                 function showNextLine() {
                     if (lineIdx < lines.length) {
-                        endingText.style.opacity = 0;
-                        setTimeout(() => {
-                            endingText.textContent = lines[lineIdx];
-                            gsap.to(endingText, { opacity: 1, duration: 0.8 });
+                        gsap.to(endingText, { 
+                            opacity: 0, 
+                            scale: 0.85, 
+                            duration: 0.45, 
+                            ease: "power2.in", 
+                            onComplete: () => {
+                                endingText.innerHTML = lines[lineIdx];
+                                gsap.fromTo(endingText, 
+                                    { opacity: 0, scale: 0.8 }, 
+                                    { opacity: 1, scale: 1, duration: 0.8, ease: "back.out(1.6)" }
+                                );
 
-                            if (lineIdx === 1 && musicPlaying) {
-                                gsap.to(bgMusic, { volume: 0.05, duration: 2.2, ease: "power1.out" });
-                            }
-                            else if (lineIdx === 2 && musicPlaying) {
-                                gsap.to(bgMusic, { volume: 0.01, duration: 2.0, ease: "power1.out" });
-                            }
+                                if (lineIdx === 1 && musicPlaying) {
+                                    gsap.to(bgMusic, { volume: 0.05, duration: 2.2, ease: "power1.out" });
+                                }
+                                else if (lineIdx === 2 && musicPlaying) {
+                                    gsap.to(bgMusic, { volume: 0.01, duration: 2.0, ease: "power1.out" });
+                                }
 
-                            lineIdx++;
-                            setTimeout(showNextLine, 2600);
-                        }, 500);
+                                lineIdx++;
+                                setTimeout(showNextLine, 2800);
+                            }
+                        });
                     } else {
                         setTimeout(() => {
                             if (musicPlaying) {
                                 bgMusic.volume = 0;
                                 bgMusic.pause();
                             }
-                            endingText.style.display = 'none';
+                            gsap.to(endingText, { opacity: 0, duration: 0.5, onComplete: () => {
+                                endingText.style.display = 'none';
+                            }});
 
                             setTimeout(() => {
                                 function playHeartbeatSequence() {
