@@ -7,7 +7,7 @@
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Caveat:wght@600;700&family=DM+Serif+Display&family=Nunito:wght@400;600;700;800;900&family=Playfair+Display:ital,wght@0,600;1,400;1,600&family=Poppins:wght@500;600&family=Quicksand:wght@600&display=swap" rel="stylesheet">
     
     <!-- GSAP Engine & Canvas Confetti -->
@@ -81,12 +81,32 @@
         .hud-header {
             position: fixed;
             top: env(safe-area-inset-top, 15px);
-            left: 20px; right: 20px;
+            left: 15px; right: 15px;
             display: flex;
-            justify-content: flex-end;
+            justify-content: space-between;
             align-items: center;
+            gap: 10px;
             z-index: 1000;
             pointer-events: none;
+        }
+
+        .level-badge {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-size: 0.78rem;
+            font-weight: 800;
+            color: var(--purple-dark);
+            box-shadow: var(--glass-shadow);
+            pointer-events: auto;
+            max-width: calc(100% - 60px);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            transition: all 0.3s ease;
         }
 
         .floating-music-btn {
@@ -96,6 +116,7 @@
             border: 1px solid var(--glass-border);
             border-radius: 50%;
             width: 44px; height: 44px;
+            min-width: 44px;
             font-size: 1.2rem;
             cursor: pointer;
             box-shadow: var(--glass-shadow);
@@ -425,6 +446,7 @@
     <canvas id="particleCanvas"></canvas>
 
     <header class="hud-header">
+        <div id="levelBadge" class="level-badge">I</div>
         <button id="musicBtn" class="floating-music-btn" aria-label="Toggle Music">🎵</button>
     </header>
 
@@ -533,7 +555,7 @@
                         <div class="meme-slide active-slide"><div class="meme-img-frame"><img src="assets/meme1.jpg.gif" onerror="this.onerror=null; this.src='assets/meme1.gif'; this.onerror=function(){this.src='assets/meme1.jpg';};" alt="Meme 1"></div><p style="font-size: 0.8rem; margin-top: 4px;">Take it beybbb...</p></div>
                         <div class="meme-slide"><div class="meme-img-frame"><img src="assets/meme2.jpg.gif" onerror="this.onerror=null; this.src='assets/meme2.gif'; this.onerror=function(){this.src='assets/meme2.jpg';};" alt="Meme 2"></div><p style="font-size: 0.8rem; margin-top: 4px;">My heart when u call me...</p></div>
                         <div class="meme-slide"><div class="meme-img-frame"><img src="assets/meme3.jpg.gif" onerror="this.onerror=null; this.src='assets/meme3.gif'; this.onerror=function(){this.src='assets/meme3.jpg';};" alt="Meme 3"></div><p style="font-size: 0.8rem; margin-top: 4px;">whenever I think about U...</p></div>
-                        <div class="meme-slide"><div class="meme-img-frame"><img src="assets/meme4.jpg.gif" onerror="this.onerror=null; this.src='assets/meme4.gif'; this.onerror=function(){this.src='assets/meme4.jpg';};" alt="Meme 4"></div><p style="font-size: 0.8rem; margin-top: 4px;">I need You I need You I need You....</p></div>
+                        <div class="meme-slide"><div class="meme-img-frame"><img src="assets/meme4.jpg.gif" onerror="this.onerror=null; this.src='assets/meme4.jpg'; this.onerror=function(){this.src='assets/meme4.jpg';};" alt="Meme 4"></div><p style="font-size: 0.8rem; margin-top: 4px;">I need You I need You I need You....</p></div>
                         <div class="meme-slide"><div class="meme-img-frame"><img src="assets/meme5.jpg.gif" onerror="this.onerror=null; this.src='assets/meme5.gif'; this.onerror=function(){this.src='assets/meme5.jpg';};" alt="Meme 5"></div><p style="font-size: 0.8rem; margin-top: 4px;">whenever I text uhhh...</p></div>
                         <div class="meme-slide"><div class="meme-img-frame"><img src="assets/meme6.jpg.gif" onerror="this.onerror=null; this.src='assets/meme6.gif'; this.onerror=function(){this.src='assets/meme6.jpg';};" alt="Meme 6"></div><p style="font-size: 0.8rem; margin-top: 4px;">US</p></div>
                         <div class="meme-slide"><div class="meme-img-frame"><img src="assets/meme7.jpg.gif" onerror="this.onerror=null; this.src='assets/meme7.gif'; this.onerror=function(){this.src='assets/meme7.jpg';};" alt="Meme 7"></div><p style="font-size: 0.8rem; margin-top: 4px;">I,</p></div>
@@ -628,7 +650,7 @@
                             <canvas class="scratch-canvas" width="140" height="85"></canvas>
                         </div>
                         <div class="scratch-card-large">
-                            <div class="scratch-reveal">❤️‍🩹 Secret Message<br><small>Emergency Come Here Pass</small></div>
+                            <div class="scratch-reveal">❤️️‍🩹 Secret Message<br><small>Emergency Come Here Pass</small></div>
                             <canvas class="scratch-canvas" width="140" height="85"></canvas>
                         </div>
                         <div class="scratch-card-large">
@@ -754,7 +776,7 @@
                 "Beyb just clear this level first 😭🎀",
                 "Huhh,,, No cheating 😼",
                 "Almost thereeee 😚💗",
-                "Finish this level firsttt😭❤️‍🩹"
+                "Finish this level firsttt😭❤️‍‍🩹"
             ];
 
             function showToastCustom(msg) {
@@ -768,9 +790,27 @@
                 showToastCustom(randomMsg);
             }
 
+            // Progressive word unlock phrase array for all 10 stages
+            const progressivePhrases = [
+                "I",
+                "I Love",
+                "I Love You",
+                "I Love You Sooo",
+                "I Love You Sooo Muchh",
+                "I Love You Sooo Muchh Myyy",
+                "I Love You Sooo Muchh Myyy Cuteee",
+                "I Love You Sooo Muchh Myyy Cuteee Little",
+                "I Love You Sooo Muchh Myyy Cuteee Little Babyyy",
+                "I Love You Sooo Muchh Myyy Cuteee Little Babyyy 😚🎀"
+            ];
+
             function updateLevelHUD(levelNum) {
-                if (levelBadge) {
-                    levelBadge.textContent = `LEVEL ${levelNum}/10`;
+                if (levelBadge && levelNum >= 1 && levelNum <= progressivePhrases.length) {
+                    gsap.fromTo(levelBadge, 
+                        { scale: 0.8, opacity: 0.5 }, 
+                        { scale: 1, opacity: 1, duration: 0.35, ease: "back.out(1.8)" }
+                    );
+                    levelBadge.textContent = progressivePhrases[levelNum - 1];
                 }
             }
 
